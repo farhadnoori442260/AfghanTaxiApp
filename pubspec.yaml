@@ -1,0 +1,76 @@
+name: taxi_app
+description: اپلیکیشن تاکسی اینترنتی مخصوص افغانستان
+publish_to: 'none' # در صورت انتشار در pub.dev این خط را حذف کنید
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # مدیریت حالت
+  provider: ^6.0.5
+
+  # نقشه گوگل
+  google_maps_flutter: ^2.5.0
+
+  # مکان‌یابی کاربر
+  geolocator: ^10.1.0
+  geocoding: ^2.1.0
+
+  # درخواست‌ها به سرور
+  http: ^1.1.0
+
+  # آیکون‌ها
+  flutter_svg: ^2.0.9
+  cupertino_icons: ^1.0.8
+
+  # فونت فارسی
+  google_fonts: ^6.1.0
+
+  # پرداخت (Stripe بین‌المللی)
+  flutter_stripe: ^9.4.0
+  url_launcher: ^6.2.4
+
+  # ذخیره‌سازی محلی
+  shared_preferences: ^2.2.2
+
+  # انیمیشن‌ها
+  animations: ^2.0.8
+
+  # اعتبارسنجی فرم
+  form_field_validator: ^1.1.0
+
+  # Firebase
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.3
+  cloud_firestore: ^4.13.6
+  firebase_storage: ^11.5.6
+
+  # مسیر و انتخاب عکس
+  image_picker: ^1.0.4
+  path_provider: ^2.1.1
+
+  # رسم مسیر روی نقشه
+  flutter_polyline_points: ^2.0.0
+  intl: ^0.19.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/fonts/
+
+  fonts:
+    - family: B_Nazanin
+      fonts:
+        - asset: assets/fonts/B_Nazanin.ttf
