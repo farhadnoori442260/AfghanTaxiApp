@@ -1,51 +1,40 @@
-import '../models/driver_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DriverService {
-  List<Driver> _drivers = [];
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // اضافه کردن راننده جدید
-  void addDriver(Driver driver) {
-    _drivers.add(driver);
+  // ۱. تغییر وضعیت حضور راننده در اپلیکیشن سفیر
+  Future<void> updateDriverStatus(String driverId, bool isOnline) async {
+    return await _db.collection('drivers').doc(driverId).update({
+      'is_online': isOnline,
+      'last_update': FieldValue.serverTimestamp(),
+    });
   }
 
-  // گرفتن لیست همه راننده‌ها
-  List<Driver> getAllDrivers() {
-    return _drivers;
+  // ۲. دریافت لیست درخواست‌های سفر فعال که هنوز کسی قبول نکرده
+  Stream<QuerySnapshot> getAvailableRideRequests() {
+    return _db
+        .collection('rides')
+        .where('status', isEqualTo: 'searching') // فقط درخواست‌های در حال جستجو
+        .snapshots();
   }
 
-  // تغییر وضعیت آنلاین/آفلاین
-  void updateDriverStatus(String driverId, bool isOnline) {
-    for (var driver in _drivers) {
-      if (driver.id == driverId) {
-        driver = Driver(
-          id: driver.id,
-          name: driver.name,
-          phoneNumber: driver.phoneNumber,
-          carModel: driver.carModel,
-          carNumber: driver.carNumber,
-          isOnline: isOnline,
-          latitude: driver.latitude,
-          longitude: driver.longitude,
-        );
-      }
-    }
+  // ۳. قبول سفر توسط راننده سفیر
+  Future<void> acceptRideRequest(String rideId, String driverId, String driverName, String phone) async {
+    return await _db.collection('rides').doc(rideId).update({
+      'driver_id': driverId,
+      'driver_name': driverName,
+      'driver_phone': phone,
+      'status': 'accepted', // تغییر وضعیت به تایید شده
+      'accepted_at': FieldValue.serverTimestamp(),
+    });
   }
 
-  // آپدیت لوکیشن راننده
-  void updateDriverLocation(String driverId, double lat, double lng) {
-    for (var driver in _drivers) {
-      if (driver.id == driverId) {
-        driver = Driver(
-          id: driver.id,
-          name: driver.name,
-          phoneNumber: driver.phoneNumber,
-          carModel: driver.carModel,
-          carNumber: driver.carNumber,
-          isOnline: driver.isOnline,
-          latitude: lat,
-          longitude: lng,
-        );
-      }
-    }
+  // ۴. پایان سفر و دریافت کرایه (بروزرسانی وضعیت نهایی)
+  Future<void> completeRide(String rideId) async {
+    return await _db.collection('rides').doc(rideId).update({
+      'status': 'completed',
+      'completed_at': FieldValue.serverTimestamp(),
+    });
   }
 }
