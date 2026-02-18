@@ -1,63 +1,27 @@
 class RideRequestModel {
-  String id;
-  String passengerId;
-  String driverId;
-  String pickupAddress;
-  String dropOffAddress;
-  double pickupLat;
-  double pickupLng;
-  double dropOffLat;
-  double dropOffLng;
-  String status; // waiting, accepted, completed, cancelled
-  double fare;
-  DateTime createdAt;
+  String? id;
+  String? passengerId;
+  String? driverId;
+  String? status; // searching, accepted, arrived, started, completed, cancelled
+  double? fare;
+  bool? isSosActive; // برای دکمه امنیت
 
   RideRequestModel({
-    required this.id,
-    required this.passengerId,
-    required this.driverId,
-    required this.pickupAddress,
-    required this.dropOffAddress,
-    required this.pickupLat,
-    required this.pickupLng,
-    required this.dropOffLat,
-    required this.dropOffLng,
-    required this.status,
-    required this.fare,
-    required this.createdAt,
+    this.id,
+    this.passengerId,
+    this.driverId,
+    this.status = 'searching',
+    this.fare,
+    this.isSosActive = false,
   });
 
-  factory RideRequestModel.fromMap(Map<String, dynamic> map) {
-    return RideRequestModel(
-      id: map['id'],
-      passengerId: map['passengerId'],
-      driverId: map['driverId'],
-      pickupAddress: map['pickupAddress'],
-      dropOffAddress: map['dropOffAddress'],
-      pickupLat: map['pickupLat'].toDouble(),
-      pickupLng: map['pickupLng'].toDouble(),
-      dropOffLat: map['dropOffLat'].toDouble(),
-      dropOffLng: map['dropOffLng'].toDouble(),
-      status: map['status'],
-      fare: map['fare'].toDouble(),
-      createdAt: DateTime.parse(map['createdAt']),
-    );
+  UserModel.fromMap(Map<String, dynamic> data) {
+    id = data['id'];
+    passengerId = data['passenger_id'];
+    driverId = data['driver_id'];
+    status = data['status'];
+    fare = (data['fare'] ?? 0.0).toDouble();
+    isSosActive = data['is_sos_active'] ?? false;
   }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'passengerId': passengerId,
-      'driverId': driverId,
-      'pickupAddress': pickupAddress,
-      'dropOffAddress': dropOffAddress,
-      'pickupLat': pickupLat,
-      'pickupLng': pickupLng,
-      'dropOffLat': dropOffLat,
-      'dropOffLng': dropOffLng,
-      'status': status,
-      'fare': fare,
-      'createdAt': createdAt.toIso8601String(),
-    };
-  }
+  // متد toMap را هم مشابه مدل قبلی بر اساس این فیلدها اصلاح کن
 }
