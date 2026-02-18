@@ -1,47 +1,51 @@
-class Driver {
-  final String id;
-  final String name;
-  final String phoneNumber;
-  final String carModel;
-  final String carNumber;
-  final bool isOnline;
-  final double latitude;
-  final double longitude;
+class DriverModel {
+  String? id;
+  String? name;
+  String? phone;
+  String? vehicleType; // taxi, freight, motorcycle
+  String? vehicleModel; // مثلا: Corolla 2020
+  String? plateNumber;
+  double? walletBalance;
+  double? rating;
+  bool? isOnline;
 
-  Driver({
-    required this.id,
-    required this.name,
-    required this.phoneNumber,
-    required this.carModel,
-    required this.carNumber,
+  DriverModel({
+    this.id,
+    this.name,
+    this.phone,
+    this.vehicleType,
+    this.vehicleModel,
+    this.plateNumber,
+    this.walletBalance = 0.0,
+    this.rating = 5.0,
     this.isOnline = false,
-    this.latitude = 0.0,
-    this.longitude = 0.0,
   });
 
+  // تبدیل دیتای فایربیس به مدل دارت
+  DriverModel.fromMap(Map<String, dynamic> data) {
+    id = data['id'];
+    name = data['name'];
+    phone = data['phone'];
+    vehicleType = data['vehicle_type'];
+    vehicleModel = data['vehicle_model'];
+    plateNumber = data['plate_number'];
+    walletBalance = (data['wallet_balance'] ?? 0.0).toDouble();
+    rating = (data['rating'] ?? 5.0).toDouble();
+    isOnline = data['is_online'] ?? false;
+  }
+
+  // تبدیل مدل به نقشه برای ذخیره در فایربیس
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'name': name,
-      'phoneNumber': phoneNumber,
-      'carModel': carModel,
-      'carNumber': carNumber,
-      'isOnline': isOnline,
-      'latitude': latitude,
-      'longitude': longitude,
+      'phone': phone,
+      'vehicle_type': vehicleType,
+      'vehicle_model': vehicleModel,
+      'plate_number': plateNumber,
+      'wallet_balance': walletBalance,
+      'rating': rating,
+      'is_online': isOnline,
     };
-  }
-
-  factory Driver.fromMap(Map<String, dynamic> map) {
-    return Driver(
-      id: map['id'] ?? '',
-      name: map['name'] ?? '',
-      phoneNumber: map['phoneNumber'] ?? '',
-      carModel: map['carModel'] ?? '',
-      carNumber: map['carNumber'] ?? '',
-      isOnline: map['isOnline'] ?? false,
-      latitude: (map['latitude'] ?? 0.0).toDouble(),
-      longitude: (map['longitude'] ?? 0.0).toDouble(),
-    );
   }
 }
