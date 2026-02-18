@@ -1,23 +1,18 @@
 class FareCalculator {
-  final double basePrice;        // کرایه پایه
-  final double pricePerKm;       // قیمت هر کیلومتر
-  final int commissionPercent;   // درصد کمیسیون
+  // نرخ‌های پایه برای اپلیکیشن سفیر (به پول افغانی)
+  static const double baseFareTaxi = 50.0;
+  static const double perKmTaxi = 20.0;
+  
+  static const double baseFareCargo = 150.0;
+  static const double perKmCargo = 40.0;
 
-  FareCalculator({
-    required this.basePrice,
-    required this.pricePerKm,
-    required this.commissionPercent,
-  });
-
-  Map<String, double> calculate(double distanceKm) {
-    double price = basePrice + (distanceKm * pricePerKm);
-    double commission = price * commissionPercent / 100;
-    double driverEarn = price - commission;
-
-    return {
-      'price': price,
-      'commission': commission,
-      'driverEarn': driverEarn,
-    };
+  // محاسبه نهایی قیمت
+  double calculateFare(double distanceInKm, String vehicleType) {
+    if (vehicleType == 'cargo') {
+      return baseFareCargo + (distanceInKm * perKmCargo);
+    } else {
+      // پیش‌فرض برای تکسی سفیر
+      return baseFareTaxi + (distanceInKm * perKmTaxi);
+    }
   }
 }
