@@ -1,49 +1,43 @@
 class UserModel {
-  String uid;
-  String name;
-  String email;
-  String phone;
-  String role; // driver یا passenger
-  String? profileImageUrl;
-  double? lat;
-  double? lng;
+  String? id;
+  String? name;
+  String? phone;
+  double? walletBalance; // اضافه شده برای کیف پول
+  double? rating;        // اضافه شده برای امتیاز
+  String? referralCode;  // اضافه شده برای سیستم پاداش
+  String? appLanguage;   // اضافه شده برای تنظیم زبان
 
   UserModel({
-    required this.uid,
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.role,
-    this.profileImageUrl,
-    this.lat,
-    this.lng,
+    this.id,
+    this.name,
+    this.phone,
+    this.walletBalance = 0.0,
+    this.rating = 5.0,
+    this.referralCode,
+    this.appLanguage = 'fa',
   });
 
-  // تبدیل داده از Firebase
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
-      uid: map['uid'],
-      name: map['name'],
-      email: map['email'],
-      phone: map['phone'],
-      role: map['role'],
-      profileImageUrl: map['profileImageUrl'],
-      lat: map['lat'] != null ? map['lat'].toDouble() : null,
-      lng: map['lng'] != null ? map['lng'].toDouble() : null,
-    );
+  // تبدیل داده‌های فایربیس (Map) به مدل کدنویسی
+  UserModel.fromMap(Map<String, dynamic> data) {
+    id = data['id'];
+    name = data['name'];
+    phone = data['phone'];
+    walletBalance = (data['wallet_balance'] ?? 0.0).toDouble();
+    rating = (data['rating'] ?? 5.0).toDouble();
+    referralCode = data['referral_code'];
+    appLanguage = data['app_language'] ?? 'fa';
   }
 
-  // تبدیل به Map برای ذخیره در Firebase
+  // تبدیل مدل کدنویسی به Map برای ذخیره در فایربیس
   Map<String, dynamic> toMap() {
     return {
-      'uid': uid,
+      'id': id,
       'name': name,
-      'email': email,
       'phone': phone,
-      'role': role,
-      'profileImageUrl': profileImageUrl,
-      'lat': lat,
-      'lng': lng,
+      'wallet_balance': walletBalance,
+      'rating': rating,
+      'referral_code': referralCode,
+      'app_language': appLanguage,
     };
   }
 }
