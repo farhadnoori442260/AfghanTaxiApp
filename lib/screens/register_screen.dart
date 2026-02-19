@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
+import '../utils/colors.dart'; // وارد کردن فایل رنگ‌های سفیر
 import 'home_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -39,7 +40,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result)),
+        SnackBar(
+          content: Text(result, style: const TextStyle(fontFamily: 'IranYekan')),
+          backgroundColor: Colors.redAccent,
+        ),
       );
     }
   }
@@ -47,104 +51,102 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // نمایش لوگوی جدید سفیر
                 Image.asset(
                   'assets/images/logo.png',
                   height: 120,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 const Text(
-                  "ثبت‌نام کاربر جدید",
+                  "ثبت‌نام در سفیر",
                   style: TextStyle(
-                    fontFamily: 'B_Nazanin',
-                    fontSize: 28,
+                    fontFamily: 'IranYekan',
+                    fontSize: 26,
                     fontWeight: FontWeight.bold,
+                    color: SafirColors.primaryGreen,
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 8),
+                const Text(
+                  "سفری هوشمند و مطمئن را آغاز کنید",
+                  style: TextStyle(fontFamily: 'IranYekan', color: Colors.grey),
+                ),
+                const SizedBox(height: 40),
                 Form(
                   key: _formKey,
                   child: Column(
                     children: [
+                      // فیلد نام و تخلص
                       TextFormField(
-                        decoration: const InputDecoration(
+                        textAlign: TextAlign.right,
+                        decoration: InputDecoration(
                           labelText: 'نام و تخلص',
-                          border: OutlineInputBorder(),
+                          prefixIcon: const Icon(Icons.person_outline, color: SafirColors.primaryGreen),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'لطفا نام خود را وارد کنید';
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          _name = value!.trim();
-                        },
+                        validator: (value) => (value == null || value.isEmpty) ? 'لطفا نام خود را وارد کنید' : null,
+                        onSaved: (value) => _name = value!.trim(),
                       ),
                       const SizedBox(height: 15),
+                      // فیلد ایمیل
                       TextFormField(
-                        decoration: const InputDecoration(
+                        textAlign: TextAlign.left,
+                        decoration: InputDecoration(
                           labelText: 'ایمیل',
-                          border: OutlineInputBorder(),
+                          hintText: 'example@mail.com',
+                          prefixIcon: const Icon(Icons.email_outlined, color: SafirColors.primaryGreen),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
                         ),
                         keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'لطفا ایمیل را وارد کنید';
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          _email = value!.trim();
-                        },
+                        validator: (value) => (value == null || value.isEmpty) ? 'لطفا ایمیل را وارد کنید' : null,
+                        onSaved: (value) => _email = value!.trim(),
                       ),
                       const SizedBox(height: 15),
+                      // فیلد رمز عبور
                       TextFormField(
-                        decoration: const InputDecoration(
+                        textAlign: TextAlign.left,
+                        decoration: InputDecoration(
                           labelText: 'رمز عبور',
-                          border: OutlineInputBorder(),
+                          prefixIcon: const Icon(Icons.lock_outline, color: SafirColors.primaryGreen),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
                         ),
                         obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.length < 6) {
-                            return 'رمز عبور باید حداقل ۶ حرف باشد';
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          _password = value!.trim();
-                        },
+                        validator: (value) => (value == null || value.length < 6) ? 'رمز عبور باید حداقل ۶ حرف باشد' : null,
+                        onSaved: (value) => _password = value!.trim(),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 30),
+                      // دکمه ثبت‌نام با لودینگ
                       _isLoading
-                          ? const CircularProgressIndicator()
+                          ? const CircularProgressIndicator(color: SafirColors.primaryGreen)
                           : ElevatedButton(
                               onPressed: () => _register(context),
                               style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(double.infinity, 50),
+                                minimumSize: const Size(double.infinity, 55),
+                                backgroundColor: SafirColors.primaryGreen,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                               ),
                               child: const Text(
                                 'ثبت‌نام',
-                                style: TextStyle(fontFamily: 'B_Nazanin'),
+                                style: TextStyle(fontFamily: 'IranYekan', fontSize: 18, color: Colors.white),
                               ),
                             ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 20),
                 TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  onPressed: () => Navigator.pop(context),
                   child: const Text(
                     "حساب دارید؟ وارد شوید",
-                    style: TextStyle(fontFamily: 'B_Nazanin'),
+                    style: TextStyle(fontFamily: 'IranYekan', color: Colors.grey),
                   ),
                 ),
               ],
