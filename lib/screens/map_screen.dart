@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../services/location_service.dart';
 import '../services/ride_service.dart';
 import '../models/ride.dart';
-import '../widgets/safir_side_panel.dart'; // وارد کردن پنل شیشه‌ای
+import '../widgets/safir_side_panel.dart'; // پنل پروفایلی که با هم ساختیم
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -19,7 +19,8 @@ class _MapScreenState extends State<MapScreen> {
   LatLng? _pickupLocation;
   LatLng? _destinationLocation;
   
-  int _currentStep = 0; // 0: انتخاب مبدأ, 1: انتخاب مقصد, 2: انتخاب موتر
+  // مراحل سفر: 0: مبدأ، 1: مقصد، 2: انتخاب نوع موتر سفیر
+  int _currentStep = 0; 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -32,12 +33,11 @@ class _MapScreenState extends State<MapScreen> {
     final position = await LocationService.getCurrentLocation();
     setState(() {
       _currentPosition = LatLng(position.latitude, position.longitude);
-      _pickupLocation = _currentPosition; // به صورت پیش‌فرض مبدأ کجاست
+      _pickupLocation = _currentPosition; 
     });
   }
 
   void _onCameraMove(CameraPosition position) {
-    // وقتی کاربر نقشه را تکان می‌دهد، مرکز نقشه لوکیشن ما می‌شود
     setState(() {
       if (_currentStep == 0) _pickupLocation = position.target;
       if (_currentStep == 1) _destinationLocation = position.target;
@@ -48,10 +48,10 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      endDrawer: SafirSidePanel(yearsOfService: 3), // اتصال پنل شیشه‌ای سمت راست
+      endDrawer: SafirSidePanel(yearsOfService: 3), // منوی پروفایل مدرن در سمت راست
       body: Stack(
         children: [
-          // ۱. نقشه اصلی
+          // ۱. لایه نقشه
           _currentPosition == null
               ? const Center(child: CircularProgressIndicator())
               : GoogleMap(
@@ -63,30 +63,32 @@ class _MapScreenState extends State<MapScreen> {
                   zoomControlsEnabled: false,
                 ),
 
-          // ۲. آیکون وسط نقشه (برای انتخاب دقیق لوکیشن)
+          // ۲. آیکون انتخابگر وسط نقشه (تغییر رنگ بر اساس مرحله)
           if (_currentStep < 2)
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 35),
-                child: Icon(Icons.location_on, size: 50, color: _currentStep == 0 ? Colors.blue : Colors.red),
+                child: Icon(
+                  Icons.location_on_rounded, 
+                  size: 50, 
+                  color: _currentStep == 0 ? Colors.blueAccent : Colors.redAccent
+                ),
               ),
             ),
 
-          // ۳. دکمه منوی پروفایل (سمت راست بالا)
+          // ۳. دکمه منوی همبرگری برای باز کردن پروفایل
           Positioned(
             top: 50,
             right: 20,
-            child: InkWell(
-              onTap: () => _scaffoldKey.currentState!.openEndDrawer(),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle, boxShadow: [BoxShadow(blurRadius: 10, color: Colors.black12)]),
-                child: const Icon(Icons.menu, color: Colors.black87),
-              ),
+            child: FloatingActionButton(
+              mini: true,
+              backgroundColor: Colors.white,
+              onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
+              child: const Icon(Icons.menu, color: Colors.black87),
             ),
           ),
 
-          // ۴. پنل پایینی هوشمند سفیر
+          // ۴. بخش هوشمند پایین صفحه (UX مورد نظر تو)
           Align(
             alignment: Alignment.bottomCenter,
             child: _buildBottomUI(),
@@ -98,38 +100,58 @@ class _MapScreenState extends State<MapScreen> {
 
   Widget _buildBottomUI() {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9),
+        color: Colors.white.withOpacity(0.95),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-        boxShadow: [BoxShadow(blurRadius: 20, color: Colors.black12)],
+        boxShadow: [BoxShadow(blurRadius: 15, color: Colors.black12)],
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          // مرحله اول: تایید مبدأ
           if (_currentStep == 0) ...[
-            const Text("مبدأ سفر را مشخص کنید", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            const SizedBox(height: 20),
-            _buildCustomButton("تأیید مبدأ سفیر", Colors.blue, () => setState(() => _currentStep = 1)),
-          ] else if (_currentStep == 1) ...[
-            const Text("مقصد سفر را مشخص کنید", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            const SizedBox(height: 20),
-            _buildCustomButton(
-              "تأیید مقصد و مشاهده قیمت", 
-              _destinationLocation == null ? Colors.grey : Colors.green, 
+            const Text("مبدأ سفر «سفیر» را تنظیم کنید", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            const SizedBox(height: 15),
+            _buildActionButton("تأیید مبدأ", Colors.blueAccent, () {
+              setState(() => _currentStep = 1);
+            }),
+          ] 
+          // مرحله دوم: تایید مقصد (با قابلیت پنهان/کمرنگ بودن دکمه)
+          else if (_currentStep == 1) ...[
+            const Text("مقصد نهایی را انتخاب کنید", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            const SizedBox(height: 15),
+            _buildActionButton(
+              "تأیید مقصد", 
+              _destinationLocation == null ? Colors.grey.shade400 : Colors.green, 
               _destinationLocation == null ? null : () => setState(() => _currentStep = 2)
             ),
-          ] else if (_currentStep == 2) ...[
-            _buildVehicleSelection(), // نمایش لیست موترهای ۳ بعدی
-            const SizedBox(height: 20),
-            _buildCustomButton("درخواست سفیر", Colors.orangeAccent, () => print("سفر ثبت شد!")),
+            TextButton(
+              onPressed: () => setState(() => _currentStep = 0),
+              child: const Text("تغییر مبدأ", style: TextStyle(color: Colors.grey)),
+            )
+          ] 
+          // مرحله سوم: انتخاب نوع موتر با استایل مدرن
+          else if (_currentStep == 2) ...[
+            const Text("نوع سرویس سفیر را انتخاب کنید", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            const SizedBox(height: 10),
+            _buildVehicleSelection(),
+            const SizedBox(height: 15),
+            _buildActionButton("درخواست نهایی سفیر", Colors.orangeAccent, () {
+              // اینجا کد ارسال درخواست به راننده قرار می‌گیرد
+            }),
+            TextButton(
+              onPressed: () => setState(() => _currentStep = 1),
+              child: const Text("بازگشت به انتخاب مقصد", style: TextStyle(color: Colors.grey)),
+            )
           ],
         ],
       ),
     );
   }
 
-  Widget _buildCustomButton(String text, Color color, VoidCallback? onPressed) {
+  Widget _buildActionButton(String label, Color color, VoidCallback? onPressed) {
     return SizedBox(
       width: double.infinity,
       height: 55,
@@ -140,35 +162,42 @@ class _MapScreenState extends State<MapScreen> {
           elevation: 0,
         ),
         onPressed: onPressed,
-        child: Text(text, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+        child: Text(label, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
       ),
     );
   }
 
   Widget _buildVehicleSelection() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
+    return SizedBox(
+      height: 140,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
         children: [
-          _vehicleItem("تکسی", "assets/taxi.png", "80 AFN"),
-          _vehicleItem("باربری", "assets/truck.png", "200 AFN"),
-          _vehicleItem("موتور", "assets/bike.png", "40 AFN"),
-          _vehicleItem("لوکس", "assets/luxury.png", "350 AFN"),
+          _vehicleItem("سفیر اقتصادی", "assets/taxi.png", "85 AFN", Colors.orange),
+          _vehicleItem("سفیر باربر", "assets/truck.png", "210 AFN", Colors.blue),
+          _vehicleItem("سفیر موتر", "assets/bike.png", "40 AFN", Colors.green),
+          _vehicleItem("سفیر لوکس", "assets/vip.png", "380 AFN", Colors.purple),
         ],
       ),
     );
   }
 
-  Widget _vehicleItem(String name, String img, String price) {
+  Widget _vehicleItem(String name, String img, String price, Color color) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(border: Border.all(color: Colors.black12), borderRadius: BorderRadius.circular(15)),
+      width: 120,
+      margin: const EdgeInsets.only(right: 10, top: 5, bottom: 5),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.05),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: color.withOpacity(0.2)),
+      ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.directions_car, size: 40), // اینجا بعداً عکس‌های ۳ بعدی را می‌گذاریم
-          Text(name),
-          Text(price, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.green)),
+          Icon(Icons.directions_car_filled, color: color, size: 40), // موقت تا عکس‌ها را بگذاری
+          const SizedBox(height: 5),
+          Text(name, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+          Text(price, style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.bold)),
         ],
       ),
     );
