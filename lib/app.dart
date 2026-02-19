@@ -1,51 +1,49 @@
 import 'package:flutter/material.dart';
-import 'utils/colors.dart'; // فایل رنگی که ساختی
-import 'screens/splash_screen.dart';
-import 'screens/login_screen.dart';
-import 'screens/map_screen.dart';
-import 'screens/profile_screen.dart';
-import 'screens/ride_history_screen.dart';
-import 'screens/ride_request_screen.dart';
-import 'screens/driver_home.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'screens/home_screen.dart';
+import 'screens/home_dashboard.dart';
+import 'screens/fare_test_page.dart';
+import 'utils/colors.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// این کلاس همان چیزی است که در main.dart فراخوانی کردیم
+class SafirApp extends StatelessWidget {
+  const SafirApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'سفیر | Safir',
       debugShowCheckedModeBanner: false,
-      title: 'سفیر', // نام پروژه شما
       
-      // تنظیمات تم با رنگ اختصاصی کانوا
+      // ۱. تنظیمات زبان افغانستان
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('fa', 'AF')],
+      locale: const Locale('fa', 'AF'),
+
+      // ۲. تم رنگی پروژه سفیر
       theme: ThemeData(
+        useMaterial3: true,
         primaryColor: SafirColors.primaryGreen,
-        scaffoldBackgroundColor: SafirColors.bgLight,
-        colorScheme: ColorScheme.fromSeed(seedColor: SafirColors.primaryGreen),
-        
-        // استایل دکمه‌های کل اپلیکیشن
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: SafirColors.primaryGreen,
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            padding: const EdgeInsets.symmetric(vertical: 15),
-          ),
+        fontFamily: 'IranYekan', 
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: SafirColors.primaryGreen,
+          elevation: 0,
+          centerTitle: true,
         ),
       ),
 
-      // شروع برنامه با صفحه اسپلش که لوگوی S را دارد
+      // ۳. لیست تمام صفحات (Routes)
       initialRoute: '/',
-
-      // تعریف تمام صفحات در سیستم مسیردهی
       routes: {
-        '/': (context) => const SplashScreen(),
-        '/login': (context) => const LoginScreen(),
-        '/map': (context) => const MapScreen(),
-        '/profile': (context) => const ProfileScreen(),
-        '/history': (context) => const RideHistoryScreen(),
-        '/request': (context) => const RideRequestScreen(),
-        '/driver': (context) => const DriverHomeScreen(),
+        '/': (context) => const HomeScreen(),
+        '/dashboard': (context) => const HomeDashboard(),
+        '/fare_test': (context) => const FareTestPage(),
       },
     );
   }
