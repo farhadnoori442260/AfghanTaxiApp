@@ -1,66 +1,50 @@
 import 'package:flutter/material.dart';
+import '../utils/colors.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  bool showPanel = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("صفحه اصلی مسافر"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              setState(() {
-                showPanel = !showPanel;
-              });
-            },
-          ),
-        ],
+        title: const Text("سفیر", style: TextStyle(fontWeight: FontWeight.bold)),
+        centerTitle: true,
       ),
-      body: Stack(
-        children: [
-          const Center(
-            child: Text(
-              "نقشه یا محتوای اصلی اینجاست",
-              style: TextStyle(fontSize: 18),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            UserAccountsDrawerHeader(
+              decoration: const BoxDecoration(color: SafirColors.primaryGreen),
+              currentAccountPicture: const CircleAvatar(backgroundColor: Colors.white, child: Icon(Icons.person, color: SafirColors.primaryGreen)),
+              accountName: const Text("کاربر سفیر"),
+              accountEmail: const Text("07xxxxxxxxx"),
             ),
-          ),
-          if (showPanel)
-            Positioned(
-              top: 20,
-              right: 10,
-              child: Container(
-                width: 220,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: const [
-                    BoxShadow(color: Colors.black26, blurRadius: 8),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text("👤 مشخصات مسافر"),
-                    SizedBox(height: 10),
-                    Text("📞 مخاطبین"),
-                    SizedBox(height: 10),
-                    Text("⚙️ تنظیمات"),
-                  ],
-                ),
-              ),
+            ListTile(
+              leading: const Icon(Icons.history, color: SafirColors.primaryGreen),
+              title: const Text("تاریخچه سفرها"),
+              onTap: () => Navigator.pushNamed(context, '/history'),
             ),
-        ],
+            ListTile(
+              leading: const Icon(Icons.account_balance_wallet, color: SafirColors.primaryGreen),
+              title: const Text("کیف پول"),
+              onTap: () {}, // بعداً ست می‌کنیم
+            ),
+          ],
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.local_taxi, size: 80, color: SafirColors.primaryGreen),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/map'),
+              child: const Text("درخواست سفر جدید"),
+            ),
+          ],
+        ),
       ),
     );
   }
