@@ -1,7 +1,5 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
-import '../services/location_service.dart';
 
 class RideRequestScreen extends StatefulWidget {
   const RideRequestScreen({super.key});
@@ -11,110 +9,120 @@ class RideRequestScreen extends StatefulWidget {
 }
 
 class _RideRequestScreenState extends State<RideRequestScreen> {
-  GoogleMapController? _mapController;
-  LatLng? _pickupLocation;
-  LatLng? _dropoffLocation;
-  bool _loading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadPickupLocation();
-  }
-
-  Future<void> _loadPickupLocation() async {
-    final locationService = Provider.of<LocationService>(context, listen: false);
-    final position = await locationService.getCurrentLocation();
-
-    setState(() {
-      _pickupLocation = LatLng(position.latitude, position.longitude);
-      _loading = false;
-    });
-  }
-
-  void _confirmRide() {
-    if (_pickupLocation != null && _dropoffLocation != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("درخواست تاکسی شما ثبت شد"),
-        ),
-      );
-      Navigator.pop(context);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("لطفا مبدا و مقصد را انتخاب کنید"),
-        ),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'درخواست تاکسی',
-          style: TextStyle(fontFamily: 'B_Nazanin'),
-        ),
-      ),
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
+      body: Stack(
+        children: [
+          // ۱. پس‌زمینه نقشه (مات شده)
+          Container(
+            decoration: const BoxDecoration(
+              color: Color(0xFF1E1E1E), // یا یک تصویر نقشه
+            ),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Container(color: Colors.black.withOpacity(0.4)),
+            ),
+          ),
+
+          // ۲. بخش مرکزی: انیمیشن رادار برای جستجوی سفیر
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  child: GoogleMap(
-                    onMapCreated: (controller) => _mapController = controller,
-                    initialCameraPosition: CameraPosition(
-                      target: _pickupLocation!,
-                      zoom: 14,
-                    ),
-                    myLocationEnabled: true,
-                    markers: {
-                      if (_pickupLocation != null)
-                        Marker(
-                          markerId: const MarkerId('pickup'),
-                          position: _pickupLocation!,
-                          infoWindow: const InfoWindow(title: 'مبدا'),
-                        ),
-                      if (_dropoffLocation != null)
-                        Marker(
-                          markerId: const MarkerId('dropoff'),
-                          position: _dropoffLocation!,
-                          infoWindow: const InfoWindow(title: 'مقصد'),
-                        ),
-                    },
-                    onTap: (position) {
-                      setState(() {
-                        if (_dropoffLocation == null) {
-                          _dropoffLocation = position;
-                        } else {
-                          _pickupLocation = position;
-                          _dropoffLocation = null;
-                        }
-                      });
-                    },
-                  ),
+                _buildRadarAnimation(),
+                const SizedBox(height: 30),
+                const Text(
+                  "در حال جستجوی نزدیک‌ترین سفیر...",
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    onPressed: _confirmRide,
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Text(
-                      'تایید درخواست',
-                      style: TextStyle(fontSize: 18, fontFamily: 'B_Nazanin'),
-                    ),
-                  ),
+                const SizedBox(height: 10),
+                const Text(
+                  "لطفاً صبور باشید، رانندگان در حال بررسی هستند",
+                  style: TextStyle(color: Colors.white54, fontSize: 13),
                 ),
               ],
             ),
+          ),
+
+          // ۳. کارت اطلاعات سفر در پایین صفحه
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: _buildRequestDetailsCard(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRadarAnimation() {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        // افکت تپش (Pulse)
+        Container(
+          width: 150,
+          height: 150,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.orangeAccent.withOpacity(0.1),
+          ),
+        ),
+        const Icon(Icons.location_searching_rounded, color: Colors.orangeAccent, size: 60),
+      ],
+    );
+  }
+
+  Widget _buildRequestDetailsCard() {
+    return Container(
+      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(25),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.95),
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: [BoxShadow(blurRadius: 30, color: Colors.black38)],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("سفیر اقتصادی", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  Text("کرایه تخمینی شما", style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                decoration: BoxDecoration(color: Colors.green.withOpacity(0.1), borderRadius: BorderRadius.circular(15)),
+                child: const Text("۱۸۰ AFN", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 20)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 25),
+          const LinearProgressIndicator(
+            backgroundColor: Colors.black12, 
+            color: Colors.orangeAccent,
+            minHeight: 6,
+          ),
+          const SizedBox(height: 20),
+          
+          // دکمه لغو درخواست
+          SizedBox(
+            width: double.infinity,
+            child: TextButton(
+              onPressed: () => Navigator.pop(context),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+              ),
+              child: const Text("لغو درخواست سفر", style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
