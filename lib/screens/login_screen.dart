@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import '../utils/colors.dart'; // حتماً این فایل را داشته باش
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -9,18 +10,18 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // ۱. پس‌زمینه گرادینت برند سفیر
+          // ۱. پس‌زمینه با رنگ سبز برند سفیر (گرادینت ملایم)
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF1E3A8A), Color(0xFF3B82F6)],
+                colors: [SafirColors.primaryGreen, Color(0xFF0A2E21)],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
             ),
           ),
           
-          // ۲. محتوای صفحه
+          // ۲. محتوای صفحه با افکت شیشه‌ای
           Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(30),
@@ -38,14 +39,22 @@ class LoginScreen extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        // لوگوی سفیر
-                        const Icon(Icons.local_taxi_rounded, size: 80, color: Colors.orangeAccent),
+                        // لوگوی سفیر (استفاده از لوگوی S که ساختی یا آیکون)
+                        const Icon(Icons.local_taxi_rounded, size: 80, color: Colors.white),
                         const SizedBox(height: 10),
                         const Text(
                           "سفیر",
-                          style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold, letterSpacing: 2),
+                          style: TextStyle(
+                            fontFamily: 'IranYekan',
+                            color: Colors.white,
+                            fontSize: 35,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        const Text("سفر هوشمند و مطمئن", style: TextStyle(color: Colors.white70, fontSize: 14)),
+                        const Text(
+                          "سفر هوشمند و مطمئن",
+                          style: TextStyle(fontFamily: 'IranYekan', color: Colors.white70, fontSize: 14),
+                        ),
                         const SizedBox(height: 40),
 
                         // فیلد ورود شماره موبایل
@@ -58,19 +67,39 @@ class LoginScreen extends StatelessWidget {
                           height: 55,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.orangeAccent,
+                              backgroundColor: Colors.white, // دکمه سفید روی پس‌زمینه سبز
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                               elevation: 0,
                             ),
                             onPressed: () {
-                              // هدایت به صفحه نقشه
                               Navigator.pushReplacementNamed(context, '/map');
                             },
-                            child: const Text("ورود / ثبت‌نام", style: TextStyle(color: Colors.black87, fontSize: 18, fontWeight: FontWeight.bold)),
+                            child: const Text(
+                              "ورود / ثبت‌نام",
+                              style: TextStyle(
+                                fontFamily: 'IranYekan',
+                                color: SafirColors.primaryGreen,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 20),
-                        const Text("با ورود به سفیر، شرایط و قوانین را می‌پذیرم", style: TextStyle(color: Colors.white54, fontSize: 11)),
+                        
+                        // لینک به صفحه ثبت‌نام (اگر جداست)
+                        TextButton(
+                          onPressed: () => Navigator.pushNamed(context, '/register'),
+                          child: const Text(
+                            "هنوز عضو نشده‌اید؟ ثبت‌نام کنید",
+                            style: TextStyle(fontFamily: 'IranYekan', color: Colors.white70, fontSize: 13),
+                          ),
+                        ),
+                        
+                        const Text(
+                          "با ورود به سفیر، شرایط و قوانین را می‌پذیرم",
+                          style: TextStyle(fontFamily: 'IranYekan', color: Colors.white38, fontSize: 10),
+                        ),
                       ],
                     ),
                   ),
@@ -85,10 +114,11 @@ class LoginScreen extends StatelessWidget {
 
   Widget _buildTextField(String hint, IconData icon) {
     return TextField(
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(fontFamily: 'IranYekan', color: Colors.white),
+      textAlign: TextAlign.right,
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: const TextStyle(color: Colors.white54),
+        hintStyle: const TextStyle(fontFamily: 'IranYekan', color: Colors.white54),
         prefixIcon: Icon(icon, color: Colors.white70),
         filled: true,
         fillColor: Colors.white.withOpacity(0.1),
