@@ -1,51 +1,59 @@
 class DriverModel {
-  String? id;
-  String? name;
-  String? phone;
-  String? vehicleType; // taxi, freight, motorcycle
-  String? vehicleModel; // مثلا: Corolla 2020
-  String? plateNumber;
-  double? walletBalance;
-  double? rating;
-  bool? isOnline;
+  final String id;
+  final String fullName;
+  final String phone;
+  final String vehicleType;  // safir_taxi, safir_cargo, safir_bike
+  final String vehicleModel; 
+  final String plateNumber;
+  final String? city;        // ولایت محل فعالیت
+  final double walletBalance;
+  final double rating;
+  final bool isOnline;
+  final bool isApproved;     // وضعیت تایید توسط مدیریت
 
   DriverModel({
-    this.id,
-    this.name,
-    this.phone,
-    this.vehicleType,
-    this.vehicleModel,
-    this.plateNumber,
+    required this.id,
+    required this.fullName,
+    required this.phone,
+    required this.vehicleType,
+    required this.vehicleModel,
+    required this.plateNumber,
+    this.city,
     this.walletBalance = 0.0,
     this.rating = 5.0,
     this.isOnline = false,
+    this.isApproved = false,
   });
 
-  // تبدیل دیتای فایربیس به مدل دارت
-  DriverModel.fromMap(Map<String, dynamic> data) {
-    id = data['id'];
-    name = data['name'];
-    phone = data['phone'];
-    vehicleType = data['vehicle_type'];
-    vehicleModel = data['vehicle_model'];
-    plateNumber = data['plate_number'];
-    walletBalance = (data['wallet_balance'] ?? 0.0).toDouble();
-    rating = (data['rating'] ?? 5.0).toDouble();
-    isOnline = data['is_online'] ?? false;
+  factory DriverModel.fromMap(Map<String, dynamic> data) {
+    return DriverModel(
+      id: data['id'] ?? '',
+      fullName: data['full_name'] ?? data['name'] ?? '',
+      phone: data['phone'] ?? '',
+      vehicleType: data['vehicle_type'] ?? 'safir_taxi',
+      vehicleModel: data['vehicle_model'] ?? '',
+      plateNumber: data['plate_number'] ?? '',
+      city: data['city'],
+      walletBalance: (data['wallet_balance'] ?? 0.0).toDouble(),
+      rating: (data['rating'] ?? 5.0).toDouble(),
+      isOnline: data['is_online'] ?? false,
+      isApproved: data['is_approved'] ?? false,
+    );
   }
 
-  // تبدیل مدل به نقشه برای ذخیره در فایربیس
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'name': name,
+      'full_name': fullName,
       'phone': phone,
       'vehicle_type': vehicleType,
       'vehicle_model': vehicleModel,
       'plate_number': plateNumber,
+      'city': city,
       'wallet_balance': walletBalance,
       'rating': rating,
       'is_online': isOnline,
+      'is_approved': isApproved,
     };
   }
 }
