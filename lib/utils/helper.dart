@@ -13,6 +13,7 @@ String tr(BuildContext context, String key) {
     'exit': {'fa': 'خروج', 'ps': 'وتل', 'en': 'Logout'},
     'confirm': {'fa': 'تایید', 'ps': 'تایید', 'en': 'Confirm'},
     'cancel': {'fa': 'لغو', 'ps': 'لغوه', 'en': 'Cancel'},
+    'next_step': {'fa': 'تایید و ادامه', 'ps': 'تایید او دوام', 'en': 'Confirm & Continue'},
 
     // --- بخش مسافر و سفر ---
     'where_to': {'fa': 'کجا می‌روید؟', 'ps': 'چیرته ځئ؟', 'en': 'Where to?'},
@@ -22,16 +23,31 @@ String tr(BuildContext context, String key) {
     'fare': {'fa': 'کرایه', 'ps': 'کرایه', 'en': 'Fare'},
     'afn': {'fa': 'افغانی', 'ps': 'افغانۍ', 'en': 'AFN'},
 
-    // --- ثبت‌نام راننده (سفیر) ---
+    // --- ثبت‌نام راننده (مراحل اسنپی) ---
     'reg_title': {'fa': 'ثبت‌نام سفیر جدید', 'ps': 'د نوي سفیر نوم لیکنه', 'en': 'New Driver Registration'},
     'full_name': {'fa': 'نام و نام خانوادگی', 'ps': 'بشپړ نوم', 'en': 'Full Name'},
+    'father_name': {'fa': 'نام پدر', 'ps': 'د پلار نوم', 'en': 'Father\'s Name'},
     'phone': {'fa': 'شماره تماس', 'ps': 'د اړیکې شمیره', 'en': 'Phone Number'},
     'id_card': {'fa': 'نمبر تذکره', 'ps': 'د تذکرې شمیره', 'en': 'ID Card Number'},
-    'vehicle_info': {'fa': 'مشخصات موتر', 'ps': 'د موټر مشخصات', 'en': 'Vehicle Info'},
-    'upload_doc': {'fa': 'آپلود مدارک', 'ps': 'اسناد اپلوډ کړئ', 'en': 'Upload Documents'},
+    'city_activity': {'fa': 'ولایت محل فعالیت', 'ps': 'د فعالیت ولایت', 'en': 'Working City'},
+    'vehicle_type': {'fa': 'نوع وسیله نقلیه', 'ps': 'د واسطې ډول', 'en': 'Vehicle Type'},
+    'referral_code': {'fa': 'کد معرف (اختیاری)', 'ps': 'د پیژندنې کوډ', 'en': 'Referral Code'},
+    'upload_doc': {'fa': 'بارگذاری مدارک', 'ps': 'اسناد اپلوډ کړئ', 'en': 'Upload Documents'},
+
+    // --- ولایات افغانستان ---
+    'kabul': {'fa': 'کابل', 'ps': 'کابل', 'en': 'Kabul'},
+    'herat': {'fa': 'هرات', 'ps': 'هرات', 'en': 'Herat'},
+    'mazar': {'fa': 'مزار شریف', 'ps': 'مزار شریف', 'en': 'Mazar-i-Sharif'},
+    'kandahar': {'fa': 'قندهار', 'ps': 'کندهار', 'en': 'Kandahar'},
+    'jalalabad': {'fa': 'جلال‌آباد', 'ps': 'جلال‌اباد', 'en': 'Jalalabad'},
+    'kunduz': {'fa': 'کندز', 'ps': 'کندز', 'en': 'Kunduz'},
+
+    // --- وسایل نقلیه ---
+    'safir_taxi': {'fa': 'سفیر سواری', 'ps': 'سوارلۍ سفیر', 'en': 'Safir Taxi'},
+    'safir_cargo': {'fa': 'سفیر باربر', 'ps': 'بار وړونکی سفیر', 'en': 'Safir Cargo'},
+    'safir_bike': {'fa': 'سفیر سریع (موتور)', 'ps': 'چټک سفیر', 'en': 'Safir Bike'},
 
     // --- باربری (Cargo) ---
-    'cargo_title': {'fa': 'سفیر باربر', 'ps': 'بار وړونکی سفیر', 'en': 'Safir Cargo'},
     'cargo_type': {'fa': 'نوع بار', 'ps': 'د بار ډول', 'en': 'Cargo Type'},
     'weight': {'fa': 'وزن (تُن)', 'ps': 'وزن (ټن)', 'en': 'Weight (Tons)'},
     'intra_city': {'fa': 'داخل شهری', 'ps': 'د ښار دننه', 'en': 'Intra-city'},
@@ -42,10 +58,11 @@ String tr(BuildContext context, String key) {
     'dest_city': {'fa': 'ولایت مقصد', 'ps': 'د منزل ولایت', 'en': 'Destination City'},
     'passengers_count': {'fa': 'تعداد مسافرین', 'ps': 'د سپرلیو شمیر', 'en': 'Passengers Count'},
     
-    // --- داشبورد مدیریت (Admin/Status) ---
+    // --- وضعیت‌ها ---
     'total_earned': {'fa': 'مجموع درآمد', 'ps': 'ټوله ګټه', 'en': 'Total Earned'},
     'active_rides': {'fa': 'سفرهای فعال', 'ps': 'فعال سفرونه', 'en': 'Active Rides'},
     'pending_approval': {'fa': 'در انتظار تایید', 'ps': 'تایید ته انتظار', 'en': 'Pending Approval'},
+    'contract': {'fa': 'امضای قرارداد', 'ps': 'د قرارداد لاسلیک', 'en': 'Sign Contract'},
   };
 
   return words[key]?[lang] ?? key;
