@@ -10,6 +10,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # این خط را با رعایت دو فاصله از سمت چپ اضافه کن
+  image_picker: ^1.0.7 
+  
+  # اگر از آیکون‌های اپل هم استفاده می‌کنی:
+  cupertino_icons: ^1.0.6
+
   # مدیریت حالت
   provider: ^6.0.5
 
