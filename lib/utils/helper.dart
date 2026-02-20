@@ -48,6 +48,7 @@ String tr(BuildContext context, String key) {
     'safir_bike': {'fa': 'سفیر سریع (موتور)', 'ps': 'چټک سفیر', 'en': 'Safir Bike'},
 
     // --- باربری (Cargo) ---
+    'cargo_title': {'fa': 'سفیر باربر', 'ps': 'بار وړونکی سفیر', 'en': 'Safir Cargo'},
     'cargo_type': {'fa': 'نوع بار', 'ps': 'د بار ډول', 'en': 'Cargo Type'},
     'weight': {'fa': 'وزن (تُن)', 'ps': 'وزن (ټن)', 'en': 'Weight (Tons)'},
     'intra_city': {'fa': 'داخل شهری', 'ps': 'د ښار دننه', 'en': 'Intra-city'},
@@ -57,8 +58,10 @@ String tr(BuildContext context, String key) {
     'origin_city': {'fa': 'ولایت مبدأ', 'ps': 'د پیل ولایت', 'en': 'Origin City'},
     'dest_city': {'fa': 'ولایت مقصد', 'ps': 'د منزل ولایت', 'en': 'Destination City'},
     'passengers_count': {'fa': 'تعداد مسافرین', 'ps': 'د سپرلیو شمیر', 'en': 'Passengers Count'},
+    'select_date': {'fa': 'انتخاب تاریخ سفر', 'ps': 'د سفر نیټه غوره کړئ', 'en': 'Select Travel Date'},
+    'search_rides': {'fa': 'جستجوی سفرهای موجود', 'ps': 'د موجودو سفرونو لټون', 'en': 'Search Available Rides'},
     
-    // --- وضعیت‌ها ---
+    // --- وضعیت‌ها و مراحل ---
     'total_earned': {'fa': 'مجموع درآمد', 'ps': 'ټوله ګټه', 'en': 'Total Earned'},
     'active_rides': {'fa': 'سفرهای فعال', 'ps': 'فعال سفرونه', 'en': 'Active Rides'},
     'pending_approval': {'fa': 'در انتظار تایید', 'ps': 'تایید ته انتظار', 'en': 'Pending Approval'},
