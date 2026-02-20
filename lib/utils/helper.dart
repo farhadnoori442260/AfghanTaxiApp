@@ -15,6 +15,7 @@ String tr(BuildContext context, String key) {
     'cancel': {'fa': 'لغو', 'ps': 'لغوه', 'en': 'Cancel'},
     'next_step': {'fa': 'تایید و ادامه', 'ps': 'تایید او دوام', 'en': 'Confirm & Continue'},
     'error_occurred': {'fa': 'خطایی رخ داده است', 'ps': 'تیروتنه رامنځته شوه', 'en': 'An error occurred'},
+    'please_wait': {'fa': 'لطفاً منتظر بمانید...', 'ps': 'مهرباني وکړئ انتظار وکړئ...', 'en': 'Please wait...'},
 
     // --- بخش مسافر و سفر ---
     'where_to': {'fa': 'کجا می‌روید؟', 'ps': 'چیرته ځئ؟', 'en': 'Where to?'},
@@ -23,6 +24,8 @@ String tr(BuildContext context, String key) {
     'finding_driver': {'fa': 'در حال جستجوی سفیر...', 'ps': 'د سفیر لټون...', 'en': 'Finding Safir...'},
     'fare': {'fa': 'کرایه', 'ps': 'کرایه', 'en': 'Fare'},
     'afn': {'fa': 'افغانی', 'ps': 'افغانۍ', 'en': 'AFN'},
+    'origin': {'fa': 'مبدأ', 'ps': 'مبدا', 'en': 'Origin'},
+    'destination': {'fa': 'مقصد', 'ps': 'مقصد', 'en': 'Destination'},
 
     // --- ثبت‌نام راننده و اسناد ---
     'reg_title': {'fa': 'ثبت‌نام سفیر جدید', 'ps': 'د نوي سفیر نوم لیکنه', 'en': 'New Driver Registration'},
@@ -38,14 +41,6 @@ String tr(BuildContext context, String key) {
     'plate_number': {'fa': 'نمبر پلیت', 'ps': 'د پلیټ شمیره', 'en': 'Plate Number'},
     'image_too_large': {'fa': 'حجم عکس زیاد است (حداکثر ۲ مگ)', 'ps': 'د عکس اندازه لویه ده', 'en': 'Image too large (Max 2MB)'},
     'invalid_image_format': {'fa': 'فرمت تصویر نامعتبر است', 'ps': 'د عکس بڼه سمه نه ده', 'en': 'Invalid image format'},
-
-    // --- ولایات افغانستان ---
-    'kabul': {'fa': 'کابل', 'ps': 'کابل', 'en': 'Kabul'},
-    'herat': {'fa': 'هرات', 'ps': 'هرات', 'en': 'Herat'},
-    'mazar': {'fa': 'مزار شریف', 'ps': 'مزار شریف', 'en': 'Mazar-i-Sharif'},
-    'kandahar': {'fa': 'قندهار', 'ps': 'کندهار', 'en': 'Kandahar'},
-    'jalalabad': {'fa': 'جلال‌آباد', 'ps': 'جلال‌اباد', 'en': 'Jalalabad'},
-    'kunduz': {'fa': 'کندز', 'ps': 'کندز', 'en': 'Kunduz'},
 
     // --- وسایل نقلیه (Logic Optimized) ---
     'safir_taxi': {'fa': 'سفیر سواری', 'ps': 'سوارلۍ سفیر', 'en': 'Safir Taxi'},
@@ -73,13 +68,18 @@ String tr(BuildContext context, String key) {
     'wallet_balance': {'fa': 'موجودی کیف پول', 'ps': 'د بکس موجودي', 'en': 'Wallet Balance'},
     'commission': {'fa': 'حق کمیسیون', 'ps': 'د کمیسیون حق', 'en': 'Commission'},
     'driver_share': {'fa': 'سهم سفیر', 'ps': 'د سفیر برخه', 'en': 'Driver\'s Share'},
-    'payment_method': {'fa': 'روش پرداخت', 'ps': 'د تادیې طریقه', 'en': 'Payment Method'},
-    'payment_success': {'fa': 'پرداخت با موفقیت انجام شد', 'ps': 'تادیه په بریالیتوب سره ترسره شوه', 'en': 'Payment successful'},
-    'payment_failed': {'fa': 'پرداخت ناموفق بود', 'ps': 'تادیه ناکامه شوه', 'en': 'Payment failed'},
     'wallet_recharged': {'fa': 'کیف پول با موفقیت شارژ شد', 'ps': 'بکس په بریالیتوب سره چارج شو', 'en': 'Wallet recharged successfully'},
     'insufficient_balance': {'fa': 'موجودی کافی نیست', 'ps': 'ستاسو موجودي کمه ده', 'en': 'Insufficient balance'},
     'cash': {'fa': 'نقد', 'ps': 'نغدې', 'en': 'Cash'},
     'wallet': {'fa': 'کیف پول', 'ps': 'بکس (والټ)', 'en': 'Wallet'},
+
+    // --- افتخارات و پنل کناری (Side Panel) ---
+    'top_driver_year': {'fa': 'سفیر برتر سال', 'ps': 'د کال غوره سفیر', 'en': 'Top Driver of the Year'},
+    'honors_and_medals': {'fa': 'نشان‌های افتخار', 'ps': 'د ویاړ نښې', 'en': 'Honors & Medals'},
+    'medals_and_honors': {'fa': 'مدال‌ها و افتخارات', 'ps': 'مډالونه اویاړونه', 'en': 'Medals & Honors'},
+    'years': {'fa': 'ساله', 'ps': 'کلن', 'en': 'Years'},
+    'popular': {'fa': 'محبوب', 'ps': 'محبوب', 'en': 'Popular'},
+    'active_rides': {'fa': 'سفرهای فعال', 'ps': 'فعال سفرونه', 'en': 'Active Rides'},
 
     // --- مکان‌یابی و امنیت ---
     'gps_disabled': {'fa': 'لطفاً جی‌پی‌اس گوشی را روشن کنید', 'ps': 'مهرباني وکړئ GPS چالان کړئ', 'en': 'Please enable GPS'},
