@@ -10,45 +10,37 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # این خط را با رعایت دو فاصله از سمت چپ اضافه کن
-  image_picker: ^1.0.7 
-  
-  # اگر از آیکون‌های اپل هم استفاده می‌کنی:
-  cupertino_icons: ^1.0.6
-
-  # مدیریت حالت
-  provider: ^6.0.5
-
-  # نقشه گوگل و مکان‌یابی
-  google_maps_flutter: ^2.5.0
-  geolocator: ^10.1.0
-  geocoding: ^2.1.0
-
-  # درخواست‌ها به سرور و API
-  http: ^1.1.0
-
-  # طراحی و آیکون‌ها
-  flutter_svg: ^2.0.9
+  # آیکون‌ها و طراحی
   cupertino_icons: ^1.0.8
+  flutter_svg: ^2.0.9
+  
+  # مدیریت حالت (State Management)
+  provider: ^6.1.1
 
-  # پرداخت و لینک‌ها
-  flutter_stripe: ^9.4.0
-  url_launcher: ^6.2.4
+  # نقشه گوگل و مکان‌یابی (قلب تپنده سفیر)
+  google_maps_flutter: ^2.5.3
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
+  flutter_polyline_points: ^2.0.0 # برای کشیدن مسیر روی نقشه
 
-  # ذخیره‌سازی و دیتابیس
+  # ارتباطات و دیتابیس
+  http: ^1.1.0
   shared_preferences: ^2.2.2
   firebase_core: ^2.24.2
   firebase_auth: ^4.15.3
   cloud_firestore: ^4.13.6
   firebase_storage: ^11.5.6
 
-  # ابزارهای جانبی و انیمیشن
-  animations: ^2.0.8
-  form_field_validator: ^1.1.0
-  image_picker: ^1.0.4
-  path_provider: ^2.1.1
-  flutter_polyline_points: ^2.0.0
+  # ابزارهای کاربردی
+  image_picker: ^1.0.7 # اصلاح تکرار: فقط یک بار کافی است
+  url_launcher: ^6.2.4
   intl: ^0.19.0
+  path_provider: ^2.1.1
+  form_field_validator: ^1.1.0
+  animations: ^2.0.8
+
+  # پرداخت (اختیاری برای فازهای بعدی)
+  flutter_stripe: ^9.4.0
 
 dev_dependencies:
   flutter_test:
@@ -58,13 +50,12 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # تعریف پوشه‌های تصاویر و آیکون‌ها
+  # تعریف پوشه‌ها (پوشه فونت معمولاً در بخش fonts تعریف می‌شود و نیاز به تکرار در assets ندارد)
   assets:
     - assets/images/
     - assets/icons/
-    - assets/fonts/
 
-  # تنظیمات فونت مدرن ایران‌یکان برای سفیر
+  # تنظیم دقیق فونت‌های ایران‌یکان که در پوشه داری
   fonts:
     - family: IranYekan
       fonts:
