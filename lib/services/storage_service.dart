@@ -1,20 +1,33 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import '../utils/helper.dart';
 
 class StorageService {
-  // این متد عکس را برای ادمین سفیر آماده می‌کند
-  Future<String?> processImageForAdmin(File file) async {
+  // این متد عکس را پردازش و حجم آن را کنترل می‌کند
+  Future<String?> processImageForAdmin(BuildContext context, File file) async {
     try {
-      // ۱. خواندن فایل
+      // ۱. چک کردن حجم فایل (مثلاً حداکثر ۲ مگابایت برای بهینه‌سازی دیتابیس)
+      int fileSizeInBytes = await file.length();
+      double fileSizeInMB = fileSizeInBytes / (1024 * 1024);
+
+      if (fileSizeInMB > 2.0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(tr(context, 'image_too_large'))),
+        );
+        return null;
+      }
+
+      // ۲. خواندن و تبدیل به Base64
       List<int> imageBytes = await file.readAsBytes();
-      
-      // ۲. تبدیل به متن (Base64)
       String base64Image = base64Encode(imageBytes);
       
-      // ۳. فرمت‌بندی برای اینکه در پنل مدیریت مستقیم به شکل عکس باز شود
+      // ۳. فرمت‌بندی استاندارد برای نمایش در وب یا اپلیکیشن مدیریت سفیر
       return "data:image/jpeg;base64,$base64Image";
     } catch (e) {
-      print("خطا در پردازش تصویر مدارک: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(tr(context, 'error_processing_image'))),
+      );
       return null;
     }
   }
