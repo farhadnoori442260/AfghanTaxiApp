@@ -23,7 +23,7 @@ String tr(BuildContext context, String key) {
     'fare': {'fa': 'کرایه', 'ps': 'کرایه', 'en': 'Fare'},
     'afn': {'fa': 'افغانی', 'ps': 'افغانۍ', 'en': 'AFN'},
 
-    // --- ثبت‌نام راننده ---
+    // --- ثبت‌نام راننده و اسناد ---
     'reg_title': {'fa': 'ثبت‌نام سفیر جدید', 'ps': 'د نوي سفیر نوم لیکنه', 'en': 'New Driver Registration'},
     'full_name': {'fa': 'نام و نام خانوادگی', 'ps': 'بشپړ نوم', 'en': 'Full Name'},
     'father_name': {'fa': 'نام پدر', 'ps': 'د پلار نوم', 'en': 'Father\'s Name'},
@@ -33,6 +33,7 @@ String tr(BuildContext context, String key) {
     'vehicle_type': {'fa': 'نوع وسیله نقلیه', 'ps': 'د واسطې ډول', 'en': 'Vehicle Type'},
     'referral_code': {'fa': 'کد معرف (اختیاری)', 'ps': 'د پیژندنې کوډ', 'en': 'Referral Code'},
     'upload_doc': {'fa': 'بارگذاری مدارک', 'ps': 'اسناد اپلوډ کړئ', 'en': 'Upload Documents'},
+    'plate_number': {'fa': 'نمبر پلیت', 'ps': 'د پلیټ شمیره', 'en': 'Plate Number'},
 
     // --- ولایات افغانستان ---
     'kabul': {'fa': 'کابل', 'ps': 'کابل', 'en': 'Kabul'},
@@ -57,16 +58,32 @@ String tr(BuildContext context, String key) {
     'select_date': {'fa': 'انتخاب تاریخ سفر', 'ps': 'د سفر نیټه غوره کړئ', 'en': 'Select Travel Date'},
     'passengers_count': {'fa': 'تعداد مسافرین', 'ps': 'د سپرلیو شمیر', 'en': 'Passengers Count'},
 
-    // --- بخش جدید: تنظیمات و کرایه ---
+    // --- وضعیت‌های سفر و سفیر ---
+    'searching': {'fa': 'در جستجوی راننده', 'ps': 'د ډرایور په لټه کې', 'en': 'Searching'},
+    'accepted': {'fa': 'تایید شده', 'ps': 'تایید شوی', 'en': 'Accepted'},
+    'arrived': {'fa': 'سفیر رسید', 'ps': 'سفیر راورسید', 'en': 'Arrived'},
+    'started': {'fa': 'سفر آغاز شد', 'ps': 'سفر پیل شو', 'en': 'Started'},
+    'completed': {'fa': 'تکمیل شده', 'ps': 'بشپړ شوی', 'en': 'Completed'},
+    'cancelled': {'fa': 'لغو شده', 'ps': 'لغوه شوی', 'en': 'Cancelled'},
+    'is_approved': {'fa': 'وضعیت تایید', 'ps': 'د تایید حالت', 'en': 'Verification Status'},
+    'not_approved': {'fa': 'منتظر تایید', 'ps': 'تایید ته انتظار', 'en': 'Pending'},
+
+    // --- بخش مالی و کیف پول ---
+    'total_earned': {'fa': 'مجموع درآمد', 'ps': 'ټوله ګټه', 'en': 'Total Earned'},
+    'wallet_balance': {'fa': 'موجودی کیف پول', 'ps': 'د بکس موجودي', 'en': 'Wallet Balance'},
+    'payment_method': {'fa': 'روش پرداخت', 'ps': 'د تادیې طریقه', 'en': 'Payment Method'},
+    'cash': {'fa': 'نقد', 'ps': 'نغدې', 'en': 'Cash'},
+    'wallet': {'fa': 'کیف پول', 'ps': 'بکس (والټ)', 'en': 'Wallet'},
+    'active_rides': {'fa': 'سفرهای فعال', 'ps': 'فعال سفرونه', 'en': 'Active Rides'},
+
+    // --- تنظیمات و کرایه ---
     'language_settings': {'fa': 'تنظیمات زبان', 'ps': 'د ژبې تنظیمات', 'en': 'Language Settings'},
     'select_language': {'fa': 'زبان مورد نظر را انتخاب کنید', 'ps': 'خپله ژبه غوره کړئ', 'en': 'Select your language'},
     'calculate_fare': {'fa': 'محاسبه کرایه', 'ps': 'د کرایې محاسبه', 'en': 'Calculate Fare'},
-    'total_fare': {'fa': 'کرایه نهایی', 'ps': 'وروستۍ کرایه', 'en': 'Final Fare'},
+    'total_fare': {'fa': 'کرایه نهایی', 'ps': 'وروستۍ کرایه', 'en': 'Total Fare'},
     'distance': {'fa': 'مسافت (کیلومتر)', 'ps': 'واټن (کیلومتر)', 'en': 'Distance (KM)'},
-    
-    // --- وضعیت‌ها ---
-    'total_earned': {'fa': 'مجموع درآمد', 'ps': 'ټوله ګټه', 'en': 'Total Earned'},
-    'active_rides': {'fa': 'سفرهای فعال', 'ps': 'فعال سفرونه', 'en': 'Active Rides'},
+    'rating': {'fa': 'امتیاز', 'ps': 'امتیاز', 'en': 'Rating'},
+    'is_sos_active': {'fa': 'وضعیت اضطراری', 'ps': 'بیړنی حالت', 'en': 'SOS Active'},
   };
 
   return words[key]?[lang] ?? key;
