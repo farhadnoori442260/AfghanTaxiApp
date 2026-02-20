@@ -14,12 +14,12 @@ class FareTestPage extends StatefulWidget {
 class _FareTestPageState extends State<FareTestPage> {
   final TextEditingController _distanceController = TextEditingController();
   double _totalFare = 0.0;
-  String _selectedVehicle = 'safir_taxi'; // پیش‌فرض: سواری
+  String _selectedVehicle = 'safir_taxi';
 
-  // محاسبه کرایه بر اساس نوع وسیله
   void _calculateFare() {
     double distance = double.tryParse(_distanceController.text) ?? 0;
-    double baseFare = (_selectedVehicle == 'safir_cargo') ? 200 : 50; // لاری ورودی گران‌تر است
+    // نرخ‌ها: برای لاری (cargo) ورودی ۲۰۰، برای سواری (taxi) ۵۰
+    double baseFare = (_selectedVehicle == 'safir_cargo') ? 200 : 50;
     double perKm = (_selectedVehicle == 'safir_cargo') ? 30 : 12;
 
     setState(() {
@@ -35,7 +35,6 @@ class _FareTestPageState extends State<FareTestPage> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            // انتخاب نوع وسیله (آیکونیک)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -44,18 +43,13 @@ class _FareTestPageState extends State<FareTestPage> {
               ],
             ),
             const SizedBox(height: 30),
-
-            // ورودی کیلومتر
             CustomTextField(
               hintText: tr(context, 'distance'),
               controller: _distanceController,
               keyboardType: TextInputType.number,
               prefixIcon: Icons.straighten,
             ),
-            
             const SizedBox(height: 25),
-
-            // نمایش قیمت با استایل سفیر
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(25),
@@ -75,9 +69,7 @@ class _FareTestPageState extends State<FareTestPage> {
                 ],
               ),
             ),
-
             const SizedBox(height: 30),
-
             CustomButton(
               text: tr(context, 'calculate_fare'),
               onPressed: _calculateFare,
@@ -88,7 +80,6 @@ class _FareTestPageState extends State<FareTestPage> {
     );
   }
 
-  // ویجت انتخاب نوع وسیله
   Widget _vehicleOption(IconData icon, String label, String type) {
     bool isSelected = _selectedVehicle == type;
     return GestureDetector(
