@@ -1,46 +1,59 @@
 import 'package:flutter/material.dart';
+import '../utils/helper.dart'; // اضافه شدن برای مدیریت زبان
 import '../utils/colors.dart';
 
 class CustomButton extends StatelessWidget {
-  final String text;
+  final String textKey; // تغییر نام به textKey برای اشاره به کلیدهای helper
   final VoidCallback onPressed;
-  final Color? color; // اجازه می‌دهیم مقدار پیش‌فرض را از تم بگیرد
+  final Color? color;
   final Color textColor;
   final double radius;
+  final bool isLoading; // قابلیت جدید برای نمایش وضعیت بارگذاری
 
   const CustomButton({
     Key? key,
-    required this.text,
+    required this.textKey,
     required this.onPressed,
-    this.color, // اگر رنگ پاس داده نشود، سبز سفیری استفاده می‌شود
+    this.color,
     this.textColor = Colors.white,
-    this.radius = 18.0, // لبه‌های گردتر برای حس مدرن بودن
+    this.radius = 18.0,
+    this.isLoading = false, // پیش‌فرض بارگذاری غیرفعال است
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity, // دکمه‌ها در اپلیکیشن سفیر معمولاً تمام‌عرض هستند
+      width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: color ?? SafirColors.primaryGreen,
           foregroundColor: textColor,
-          elevation: 2, // سایه ملایم برای ایجاد عمق
+          elevation: 2,
           shadowColor: (color ?? SafirColors.primaryGreen).withOpacity(0.4),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius),
           ),
-          padding: const EdgeInsets.symmetric(vertical: 16), // پدینگ عمودی بیشتر برای راحتی لمس
+          padding: const EdgeInsets.symmetric(vertical: 16),
         ),
-        onPressed: onPressed,
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontFamily: 'IranYekan', // هماهنگی با فونت اصلی پروژه
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        // اگر در حال بارگذاری بود، دکمه غیرفعال می‌شود
+        onPressed: isLoading ? null : onPressed,
+        child: isLoading
+            ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2,
+                ),
+              )
+            : Text(
+                tr(context, textKey), // ترجمه متن با استفاده از کلید
+                style: const TextStyle(
+                  fontFamily: 'IranYekan',
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
       ),
     );
   }
