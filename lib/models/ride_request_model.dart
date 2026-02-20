@@ -1,27 +1,49 @@
 class RideRequestModel {
-  String? id;
-  String? passengerId;
-  String? driverId;
-  String? status; // searching, accepted, arrived, started, completed, cancelled
-  double? fare;
-  bool? isSosActive; // برای دکمه امنیت
+  final String id;
+  final String passengerId;
+  final String? driverId;
+  final String status; // searching, accepted, arrived, started, completed, cancelled
+  final String pickupAddress;
+  final String destinationAddress;
+  final double fare;
+  final bool isSosActive;
 
   RideRequestModel({
-    this.id,
-    this.passengerId,
+    required this.id,
+    required this.passengerId,
     this.driverId,
     this.status = 'searching',
-    this.fare,
+    required this.pickupAddress,
+    required this.destinationAddress,
+    required this.fare,
     this.isSosActive = false,
   });
 
-  UserModel.fromMap(Map<String, dynamic> data) {
-    id = data['id'];
-    passengerId = data['passenger_id'];
-    driverId = data['driver_id'];
-    status = data['status'];
-    fare = (data['fare'] ?? 0.0).toDouble();
-    isSosActive = data['is_sos_active'] ?? false;
+  // تبدیل دیتای فایربیس به مدل (با تصحیح نام متد)
+  factory RideRequestModel.fromMap(Map<String, dynamic> data) {
+    return RideRequestModel(
+      id: data['id'] ?? '',
+      passengerId: data['passenger_id'] ?? '',
+      driverId: data['driver_id'],
+      status: data['status'] ?? 'searching',
+      pickupAddress: data['pickup_address'] ?? '',
+      destinationAddress: data['destination_address'] ?? '',
+      fare: (data['fare'] ?? 0.0).toDouble(),
+      isSosActive: data['is_sos_active'] ?? false,
+    );
   }
-  // متد toMap را هم مشابه مدل قبلی بر اساس این فیلدها اصلاح کن
+
+  // متد toMap برای ذخیره در فایربیس
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'passenger_id': passengerId,
+      'driver_id': driverId,
+      'status': status,
+      'pickup_address': pickupAddress,
+      'destination_address': destinationAddress,
+      'fare': fare,
+      'is_sos_active': isSosActive,
+    };
+  }
 }
