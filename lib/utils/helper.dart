@@ -23,7 +23,7 @@ String tr(BuildContext context, String key) {
     'fare': {'fa': 'کرایه', 'ps': 'کرایه', 'en': 'Fare'},
     'afn': {'fa': 'افغانی', 'ps': 'افغانۍ', 'en': 'AFN'},
 
-    // --- ثبت‌نام راننده (مراحل اسنپی) ---
+    // --- ثبت‌نام راننده ---
     'reg_title': {'fa': 'ثبت‌نام سفیر جدید', 'ps': 'د نوي سفیر نوم لیکنه', 'en': 'New Driver Registration'},
     'full_name': {'fa': 'نام و نام خانوادگی', 'ps': 'بشپړ نوم', 'en': 'Full Name'},
     'father_name': {'fa': 'نام پدر', 'ps': 'د پلار نوم', 'en': 'Father\'s Name'},
@@ -47,25 +47,26 @@ String tr(BuildContext context, String key) {
     'safir_cargo': {'fa': 'سفیر باربر', 'ps': 'بار وړونکی سفیر', 'en': 'Safir Cargo'},
     'safir_bike': {'fa': 'سفیر سریع (موتور)', 'ps': 'چټک سفیر', 'en': 'Safir Bike'},
 
-    // --- باربری (Cargo) ---
+    // --- باربری و بین‌شهری ---
     'cargo_title': {'fa': 'سفیر باربر', 'ps': 'بار وړونکی سفیر', 'en': 'Safir Cargo'},
     'cargo_type': {'fa': 'نوع بار', 'ps': 'د بار ډول', 'en': 'Cargo Type'},
     'weight': {'fa': 'وزن (تُن)', 'ps': 'وزن (ټن)', 'en': 'Weight (Tons)'},
-    'intra_city': {'fa': 'داخل شهری', 'ps': 'د ښار دننه', 'en': 'Intra-city'},
-
-    // --- سفر بین‌شهری (Intercity) ---
     'intercity_title': {'fa': 'سفر بین‌شهری', 'ps': 'د ښارونو ترمنځ سفر', 'en': 'Intercity Travel'},
     'origin_city': {'fa': 'ولایت مبدأ', 'ps': 'د پیل ولایت', 'en': 'Origin City'},
     'dest_city': {'fa': 'ولایت مقصد', 'ps': 'د منزل ولایت', 'en': 'Destination City'},
-    'passengers_count': {'fa': 'تعداد مسافرین', 'ps': 'د سپرلیو شمیر', 'en': 'Passengers Count'},
     'select_date': {'fa': 'انتخاب تاریخ سفر', 'ps': 'د سفر نیټه غوره کړئ', 'en': 'Select Travel Date'},
-    'search_rides': {'fa': 'جستجوی سفرهای موجود', 'ps': 'د موجودو سفرونو لټون', 'en': 'Search Available Rides'},
+    'passengers_count': {'fa': 'تعداد مسافرین', 'ps': 'د سپرلیو شمیر', 'en': 'Passengers Count'},
+
+    // --- بخش جدید: تنظیمات و کرایه ---
+    'language_settings': {'fa': 'تنظیمات زبان', 'ps': 'د ژبې تنظیمات', 'en': 'Language Settings'},
+    'select_language': {'fa': 'زبان مورد نظر را انتخاب کنید', 'ps': 'خپله ژبه غوره کړئ', 'en': 'Select your language'},
+    'calculate_fare': {'fa': 'محاسبه کرایه', 'ps': 'د کرایې محاسبه', 'en': 'Calculate Fare'},
+    'total_fare': {'fa': 'کرایه نهایی', 'ps': 'وروستۍ کرایه', 'en': 'Final Fare'},
+    'distance': {'fa': 'مسافت (کیلومتر)', 'ps': 'واټن (کیلومتر)', 'en': 'Distance (KM)'},
     
-    // --- وضعیت‌ها و مراحل ---
+    // --- وضعیت‌ها ---
     'total_earned': {'fa': 'مجموع درآمد', 'ps': 'ټوله ګټه', 'en': 'Total Earned'},
     'active_rides': {'fa': 'سفرهای فعال', 'ps': 'فعال سفرونه', 'en': 'Active Rides'},
-    'pending_approval': {'fa': 'در انتظار تایید', 'ps': 'تایید ته انتظار', 'en': 'Pending Approval'},
-    'contract': {'fa': 'امضای قرارداد', 'ps': 'د قرارداد لاسلیک', 'en': 'Sign Contract'},
   };
 
   return words[key]?[lang] ?? key;
