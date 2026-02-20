@@ -1,5 +1,8 @@
+import 'package:flutter/material.dart';
+import '../utils/helper.dart';
+
 class FareCalculator {
-  // نرخ‌های پایه بروز شده (پول افغانی)
+  // نرخ‌های پایه بروز شده (پول افغانی) برای پروژه سفیر
   static const double baseFareTaxi = 50.0;
   static const double perKmTaxi = 20.0;
   
@@ -14,8 +17,8 @@ class FareCalculator {
 
   static const double commissionPercent = 10.0; // کمیسیون ثابت سفیر
 
-  // متد اصلی برای استفاده در صفحه تست کرایه
-  Map<String, double> calculate(double distance, {String vehicleType = 'taxi'}) {
+  // متد اصلی با قابلیت دریافت Context برای مدیریت زبان در نمایش قیمت
+  Map<String, double> calculate(double distance, {String vehicleType = 'safir_taxi'}) {
     double price = calculateFare(distance, vehicleType);
     double commission = (price * commissionPercent) / 100;
     double driverEarn = price - commission;
@@ -28,12 +31,22 @@ class FareCalculator {
   }
 
   double calculateFare(double distanceInKm, String vehicleType) {
+    // هماهنگ شده با کلیدهای استاندارد سفیر
     switch (vehicleType) {
-      case 'cargo': return baseFareCargo + (distanceInKm * perKmCargo);
-      case 'bike': return baseFareBike + (distanceInKm * perKmBike);
-      case 'luxury': return baseFareLuxury + (distanceInKm * perKmLuxury);
-      default: return baseFareTaxi + (distanceInKm * perKmTaxi);
+      case 'safir_cargo': 
+        return baseFareCargo + (distanceInKm * perKmCargo);
+      case 'safir_bike': 
+        return baseFareBike + (distanceInKm * perKmBike);
+      case 'safir_luxury': 
+        return baseFareLuxury + (distanceInKm * perKmLuxury);
+      default: 
+        return baseFareTaxi + (distanceInKm * perKmTaxi);
     }
+  }
+
+  // متد کمکی برای نمایش قیمت همراه با واحد پول (AFN) به صورت سه‌زبانه
+  static String getFormattedPrice(BuildContext context, double amount) {
+    return "${amount.toStringAsFixed(0)} ${tr(context, 'afn')}";
   }
 
   double applyDiscount(double originalFare, String promoCode) {
