@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart'; // حتماً این را اضافه کن
-import 'app_routes.dart'; // یا هر اسمی که فایل مسیرها دارد
+import 'package:firebase_core/firebase_core.dart';
+import 'routes.dart'; // اصلاح شد: نام فایل شما در لیست سمت چپ routes.dart است
 
 void main() async {
-  // این خط برای اطمینان از آماده بودن زیرساخت اندروید است
   WidgetsFlutterBinding.ensureInitialized();
   
-  // متصل کردن برنامه به فایربیس با استفاده از همان فایلی که آپلود کردی
-  await Firebase.initializeApp();
+  // متصل کردن برنامه به فایربیس
+  try {
+    await Firebase.initializeApp();
+  } catch (e) {
+    print("Firebase initialization error: $e");
+  }
 
   runApp(const SafirApp());
 }
@@ -21,10 +24,10 @@ class SafirApp extends StatelessWidget {
       title: 'سفیر',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue,
         useMaterial3: true,
       ),
-      // استفاده از مسیرهایی که با هم درست کردیم
+      // استفاده از متغیر appRoutes که در فایل routes.dart تعریف کردی
       initialRoute: '/',
       routes: appRoutes,
     );
