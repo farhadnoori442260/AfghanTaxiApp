@@ -50,17 +50,16 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # تعریف مسیر دارایی‌ها (Assets)
-  assets:
-    - assets/images/
-    - assets/icons/
+# بخش‌های زیر موقتاً غیرفعال شده تا برنامه بدون خطا اجرا شود
+#  assets:
+#    - assets/images/
+#    - assets/icons/
 
-  # تنظیم فونت‌های ایران‌یکان
-  fonts:
-    - family: IranYekan
-      fonts:
-        - asset: assets/fonts/Qs_Iranyekan.ttf
-        - asset: assets/fonts/Qs_Iranyekan_light.ttf
-          weight: 300
-        - asset: assets/fonts/Qs_Iranyekan_bold.ttf
-          weight: 700
+#  fonts:
+#    - family: IranYekan
+#      fonts:
+#        - asset: assets/fonts/Qs_Iranyekan.ttf
+#        - asset: assets/fonts/Qs_Iranyekan_light.ttf
+#          weight: 300
+#        - asset: assets/fonts/Qs_Iranyekan_bold.ttf
+#          weight: 700
