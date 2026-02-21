@@ -1,18 +1,18 @@
 plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
-    // اضافه کردن پلاگین گوگل برای اتصال به فایربیس پروژه سفیر
+    // این خط بسیار مهم است برای خواندن فایلی که آپلود کردی
     id "com.google.gms.google-services"
     id "dev.flutter.flutter-gradle-plugin"
 }
 
 android {
-    // تغییر نام فضای نام به سفیر
+    // هماهنگ با فایربیس پروژه سفیر
     namespace "com.farhad.safir"
     compileSdk 34
 
     defaultConfig {
-        // تغییر آیدی برنامه برای هماهنگی با فایربیس
+        // نام پکیج جدید تو
         applicationId "com.farhad.safir"
         minSdk 21
         targetSdk 34
@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    // افزودن کتابخانه پایه فایربیس
+    // کتابخانه‌های مورد نیاز فایربیس
     implementation platform('com.google.firebase:firebase-bom:33.1.0')
     implementation 'com.google.firebase:firebase-analytics'
 }
