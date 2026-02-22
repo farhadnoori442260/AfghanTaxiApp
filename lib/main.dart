@@ -1,48 +1,34 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'app.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'routes.dart';
 
 void main() {
   runApp(const SafirApp());
 }
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const MapScreen()),
-      );
-    });
-  }
+class SafirApp extends StatelessWidget {
+  const SafirApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF145A41),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // اگر عکس هنوز آپلود نشده، این خط ممکن است خطا بدهد.
-            // در آن صورت موقتاً این خط را کامنت کن.
-            Image.asset('assets/images/splash.png', width: 200, errorBuilder: (context, error, stackTrace) {
-              return const Icon(Icons.directions_car, size: 100, color: Colors.white);
-            }),
-            const SizedBox(height: 30),
-            const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
-          ],
-        ),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Safir',
+      // تنظیمات لسان دری برای افغانستان
+      locale: const Locale('fa', 'AF'),
+      supportedLocales: const [
+        Locale('fa', 'AF'),
+        Locale('ps', 'AF'),
+        Locale('en', 'US'),
+      ],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      theme: ThemeData(fontFamily: 'Vazir'), // اگر فونت وزیر داری
+      initialRoute: '/',
+      routes: appRoutes,
     );
   }
 }
