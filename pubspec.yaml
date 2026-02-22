@@ -1,20 +1,9 @@
 name: safir
-description: "Safir Taxi App"
-publish_to: 'none'
-version: 1.0.0+1
-environment:
-  sdk: '>=3.2.3 <4.0.0'
-
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  google_maps_flutter: ^2.5.3
-  geolocator: ^10.1.0
   cupertino_icons: ^1.0.6
-
 flutter:
   uses-material-design: true
-  assets:
-    - assets/images/splash.png
