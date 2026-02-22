@@ -1,39 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'dart:async';
+import 'app.dart';
 import 'routes.dart';
 
 void main() {
   runApp(const SafirApp());
-}
-
-class SafirApp extends StatelessWidget {
-  const SafirApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'سفیر',
-      debugShowCheckedModeBanner: false,
-      // تنظیمات ۳ زبانه
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('fa', 'IR'), // فارسی
-        Locale('ps', 'AF'), // پشتو
-        Locale('en', 'US'), // انگلیسی
-      ],
-      locale: const Locale('fa', 'IR'), 
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: const Color(0xFF145A41), // رنگ آبی تیره شما
-      ),
-      home: const SplashScreen(),
-    );
-  }
 }
 
 class SplashScreen extends StatefulWidget {
@@ -62,13 +33,13 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // عکس اسپلش که در Canva ساختی
-            Image.asset('assets/images/splash.png', width: 180),
+            // اگر عکس هنوز آپلود نشده، این خط ممکن است خطا بدهد.
+            // در آن صورت موقتاً این خط را کامنت کن.
+            Image.asset('assets/images/splash.png', width: 200, errorBuilder: (context, error, stackTrace) {
+              return const Icon(Icons.directions_car, size: 100, color: Colors.white);
+            }),
             const SizedBox(height: 30),
-            // لودینگ حرکتی سفید رنگ
-            const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            ),
+            const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
           ],
         ),
       ),
