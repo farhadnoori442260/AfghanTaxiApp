@@ -1,30 +1,40 @@
 import 'package:flutter/material.dart';
 
-// تعریف مسیرهای اپلیکیشن سفیر
 final Map<String, WidgetBuilder> appRoutes = {
-  '/': (context) => const PlaceholderScreen(title: 'صفحه اصلی سفیر'),
-  '/login': (context) => const PlaceholderScreen(title: 'ورود به برنامه'),
-  '/register': (context) => const PlaceholderScreen(title: 'ثبت‌نام'),
-  '/driverHome': (context) => const PlaceholderScreen(title: 'پنل راننده'),
-  '/profile': (context) => const PlaceholderScreen(title: 'پروفایل کاربری'),
-  '/smart': (context) => const PlaceholderScreen(title: 'سرویس هوشمند'),
+  '/': (context) => const MapScreen(),
 };
 
-// یک ویجت ساده برای اینکه برنامه فعلاً خطا ندهد و اجرا شود
-class PlaceholderScreen extends StatelessWidget {
-  final String title;
-  const PlaceholderScreen({super.key, required this.title});
+class MapScreen extends StatelessWidget {
+  const MapScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title), backgroundColor: Colors.blue),
-      body: Center(
-        child: Text(
-          'این صفحه ($title) در حال ساخت است\nبزودی در نسخه جدید سفیر آماده می‌شود',
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 18),
-        ),
+      body: Stack(
+        children: [
+          // بخش نقشه (فعلاً به صورت شبیه‌ساز)
+          Container(color: Colors.grey[200], child: const Center(child: Icon(Icons.map, size: 100))),
+          
+          // دکمه‌های شناور در پایین سمت راست
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: Column(
+              children: [
+                FloatingActionButton(
+                  onPressed: () {},
+                  child: const Icon(Icons.my_location),
+                ),
+                const SizedBox(height: 10),
+                FloatingActionButton(
+                  onPressed: () {},
+                  backgroundColor: Colors.blueAccent,
+                  child: const Icon(Icons.add),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
