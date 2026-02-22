@@ -12,24 +12,30 @@ class MapScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // بخش نقشه (فعلاً به صورت شبیه‌ساز)
-          Container(color: Colors.grey[200], child: const Center(child: Icon(Icons.map, size: 100))),
+          // لایه نقشه (شبیه‌ساز)
+          Container(
+            color: Colors.blue[50],
+            child: const Center(child: Icon(Icons.map, size: 80, color: Colors.blue)),
+          ),
           
-          // دکمه‌های شناور در پایین سمت راست
+          // دکمه‌های شناور هماهنگ شده در پایین سمت راست
           Positioned(
-            bottom: 20,
-            right: 20,
+            bottom: 24,
+            right: 24,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 FloatingActionButton(
+                  heroTag: "btn1",
                   onPressed: () {},
                   child: const Icon(Icons.my_location),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 12),
                 FloatingActionButton(
+                  heroTag: "btn2",
+                  backgroundColor: Colors.blue,
                   onPressed: () {},
-                  backgroundColor: Colors.blueAccent,
-                  child: const Icon(Icons.add),
+                  child: const Icon(Icons.add, color: Colors.white),
                 ),
               ],
             ),
