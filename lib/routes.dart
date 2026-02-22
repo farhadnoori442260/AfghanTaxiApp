@@ -70,8 +70,35 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           const Divider(),
-          _drawerItem(Icons.account_balance_wallet_outlined, 'کیف پول'),
-          _drawerItem(Icons.language_outlined, 'تنظیمات لسان'),
+                        // بخش تنظیمات جدید و مسلکی
+              ExpansionTile(
+                leading: const Icon(Icons.settings_outlined, color: Colors.black87),
+                title: const Text('تنظیمات', textAlign: TextAlign.right),
+                children: [
+                  // زیرمجموعه انتخاب زبان در داخل تنظیمات
+                  ExpansionTile(
+                    leading: const Icon(Icons.language, size: 20, color: Color(0xFF145A41)),
+                    title: const Text('انتخاب زبان', style: TextStyle(fontSize: 14)),
+                    children: [
+                      ListTile(
+                        title: const Text('دری', textAlign: TextAlign.center),
+                        onTap: () {
+                           // اینجا بعداً کد تغییر زبان را می‌نویسیم
+                        },
+                      ),
+                      ListTile(
+                        title: const Text('پشتو', textAlign: TextAlign.center),
+                        onTap: () {},
+                      ),
+                      ListTile(
+                        title: const Text('English', textAlign: TextAlign.center),
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+
           _drawerItem(Icons.headset_mic_outlined, 'ارتباط با پشتیبانی'),
         ],
       ),
