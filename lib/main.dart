@@ -13,7 +13,7 @@ class SafirApp extends StatelessWidget {
     return MaterialApp(
       title: 'سفیر',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(useMaterial3: true),
+      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.blue),
       initialRoute: '/',
       routes: appRoutes,
     );
