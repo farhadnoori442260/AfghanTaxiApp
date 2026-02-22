@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 final Map<String, WidgetBuilder> appRoutes = {
-  '/': (context) => const MapScreen(),
+  '/map': (context) => const MapScreen(),
 };
 
 class MapScreen extends StatelessWidget {
@@ -12,28 +12,25 @@ class MapScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // لایه نقشه (شبیه‌ساز)
           Container(
-            color: Colors.blue[50],
-            child: const Center(child: Icon(Icons.map, size: 80, color: Colors.blue)),
+            color: const Color(0xFFF5F5F5),
+            child: const Center(child: Icon(Icons.map, size: 80, color: Color(0xFF145A41))),
           ),
-          
-          // دکمه‌های شناور هماهنگ شده در پایین سمت راست
           Positioned(
             bottom: 24,
             right: 24,
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               children: [
                 FloatingActionButton(
-                  heroTag: "btn1",
+                  heroTag: "btn_loc",
+                  backgroundColor: Colors.white,
                   onPressed: () {},
-                  child: const Icon(Icons.my_location),
+                  child: const Icon(Icons.my_location, color: Color(0xFF145A41)),
                 ),
                 const SizedBox(height: 12),
                 FloatingActionButton(
-                  heroTag: "btn2",
-                  backgroundColor: Colors.blue,
+                  heroTag: "btn_add",
+                  backgroundColor: const Color(0xFF145A41),
                   onPressed: () {},
                   child: const Icon(Icons.add, color: Colors.white),
                 ),
