@@ -13,20 +13,15 @@ class SafirApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Safir',
-      // تنظیمات لسان دری برای افغانستان
-      locale: const Locale('fa', 'AF'),
-      supportedLocales: const [
-        Locale('fa', 'AF'),
-        Locale('ps', 'AF'),
-        Locale('en', 'US'),
-      ],
+      title: 'Safir Taxi',
+      locale: const Locale('fa', 'AF'), 
+      supportedLocales: const [Locale('fa', 'AF'), Locale('ps', 'AF')],
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      theme: ThemeData(fontFamily: 'Vazir'), // اگر فونت وزیر داری
+      theme: ThemeData(useMaterial3: true, primaryColor: const Color(0xFF145A41)),
       initialRoute: '/',
       routes: appRoutes,
     );
