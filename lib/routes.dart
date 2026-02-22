@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
-// مسیرهای ناوبری
+// ۱. تعریف تمام مسیرها
 final Map<String, WidgetBuilder> appRoutes = {
   '/': (context) => const HomeScreen(),
-  '/profile': (context) => const ProfileScreen(),
+  '/safir_request': (context) => const SafirRequestScreen(),
+  '/barbari': (context) => const BarbariScreen(),
+  '/registration': (context) => const RegistrationScreen(),
+  '/intercity': (context) => const IntercityScreen(),
+  '/profile_edit': (context) => const ProfileEditScreen(), // مسیر جدید پروفایل
 };
 
-// --- صفحه اصلی ---
+// ۲. صفحه اصلی
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -16,180 +20,73 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text('Safir', style: TextStyle(color: Color(0xFF145A41), fontWeight: FontWeight.bold)),
-            Builder(builder: (context) => IconButton(
-              icon: const Icon(Icons.menu, color: Color(0xFF145A41)),
-              onPressed: () => Scaffold.of(context).openDrawer(),
-            )),
-          ],
-        ),
-      ),
-      drawer: _buildDrawer(context),
-      body: Column(
-        children: [
-          Container(height: 1, color: Colors.grey[300]), // خط جداکننده زیر هدر
-          const SizedBox(height: 20),
-          _buildActionGrid(context),
+        title: const Text('Safir', style: TextStyle(color: Color(0xFF145A41), fontWeight: FontWeight.bold)),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person_outline, color: Color(0xFF145A41)),
+            onPressed: () => Navigator.pushNamed(context, '/profile_edit'), // دکمه ورود به پروفایل
+          )
         ],
       ),
-    );
-  }
-
-  Widget _buildDrawer(BuildContext context) {
-    return Drawer(
-      child: Column(
-        children: [
-          // بخش پروفایل بالای منو
-          Container(
-            padding: const EdgeInsets.only(top: 50, right: 15, left: 10, bottom: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.edit_outlined, color: Colors.grey),
-                  onPressed: () => Navigator.pushNamed(context, '/profile'),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: const [
-                    Text('farhadnoori', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                    Text('۰۹۹۰۷۰۲۷۱۲۳', style: TextStyle(color: Colors.grey, fontSize: 13)),
-                  ],
-                ),
-                const CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Color(0xFFF5F5F5),
-                  child: Icon(Icons.person, color: Colors.grey, size: 40),
-                ),
-              ],
-            ),
-          ),
-          const Divider(),
-                        // بخش تنظیمات جدید و مسلکی
-              ExpansionTile(
-                leading: const Icon(Icons.settings_outlined, color: Colors.black87),
-                title: const Text('تنظیمات', textAlign: TextAlign.right),
-                children: [
-                  // زیرمجموعه انتخاب زبان در داخل تنظیمات
-                  ExpansionTile(
-                    leading: const Icon(Icons.language, size: 20, color: Color(0xFF145A41)),
-                    title: const Text('انتخاب زبان', style: TextStyle(fontSize: 14)),
-                    children: [
-                      ListTile(
-                        title: const Text('دری', textAlign: TextAlign.center),
-                        onTap: () {
-                           // اینجا بعداً کد تغییر زبان را می‌نویسیم
-                        },
-                      ),
-                      ListTile(
-                        title: const Text('پشتو', textAlign: TextAlign.center),
-                        onTap: () {},
-                      ),
-                      ListTile(
-                        title: const Text('English', textAlign: TextAlign.center),
-                        onTap: () {},
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-
-          _drawerItem(Icons.headset_mic_outlined, 'ارتباط با پشتیبانی'),
-        ],
-      ),
-    );
-  }
-
-  Widget _drawerItem(IconData icon, String title) {
-    return ListTile(
-      trailing: Icon(icon, color: Colors.black87),
-      title: Text(title, textAlign: TextAlign.right),
-      onTap: () {},
-    );
-  }
-
-  Widget _buildActionGrid(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 15),
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10)],
-      ),
-      child: GridView.count(
-        shrinkWrap: true,
+      body: GridView.count(
+        padding: const EdgeInsets.all(20),
         crossAxisCount: 4,
         children: [
-          _gridItem('سفیر', Icons.directions_car),
-          _gridItem('باربری', Icons.local_shipping),
-          _gridItem('ثبت نام', Icons.person_add), // دکمه ثبت نام راننده
-          _gridItem('ولایتی', Icons.location_city),
+          _menuItem(context, 'سفیر', Icons.directions_car, '/safir_request'),
+          _menuItem(context, 'باربری', Icons.local_shipping, '/barbari'),
+          _menuItem(context, 'بین شهری', Icons.location_city, '/intercity'),
+          _menuItem(context, 'ثبت نام', Icons.person_add, '/registration'),
         ],
       ),
     );
   }
 
-  Widget _gridItem(String title, IconData icon) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(color: const Color(0xFFE8F5E9), borderRadius: BorderRadius.circular(12)),
-          child: Icon(icon, color: const Color(0xFF145A41)),
-        ),
-        const SizedBox(height: 5),
-        Text(title, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
-      ],
+  Widget _menuItem(BuildContext context, String title, IconData icon, String route) {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, route),
+      child: Column(
+        children: [
+          CircleAvatar(backgroundColor: const Color(0xFF145A41).withOpacity(0.1), child: Icon(icon, color: const Color(0xFF145A41))),
+          const SizedBox(height: 5),
+          Text(title, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+        ],
+      ),
     );
   }
 }
 
-// --- صفحه حساب کاربری ---
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+// ۳. بخش صفحات (فقط به انتهای این بخش کد اضافه کن)
 
+class ProfileEditScreen extends StatelessWidget {
+  const ProfileEditScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text('حساب کاربری', style: TextStyle(color: Colors.black)),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('اطلاعات کاربری'), centerTitle: true),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
-            const CircleAvatar(radius: 50, child: Icon(Icons.person, size: 70)),
-            const SizedBox(height: 10),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-              Icon(Icons.star, color: Colors.amber),
-              Text(' ۴.۵')
-            ]),
+            const Text('اطلاعات اصلی', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            const SizedBox(height: 15),
+            _inputField('نام و نام خانوادگی', 'farhadnoori'),
+            _inputField('شماره موبایل', '+989907027123'),
+            _inputField('ایمیل', 'farhadnoori442@gmail.com'),
+            const Divider(height: 40),
+            const Text('اطلاعات فرعی', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            const SizedBox(height: 15),
+            _inputField('آدرس', 'آدرستان را بنویسید...'),
+            _inputField('جنسیت', 'انتخاب کنید'),
+            _inputField('تاریخ تولد', '۱۴۰۲/۰۱/۰۱'),
             const SizedBox(height: 30),
-            _infoRow('اطلاعات کاربری', 'ویرایش'),
-            _infoRow('farhadnoori', '۰۹۹۰۷۰۲۷۱۲۳'),
-            const Divider(height: 50),
-            const Text('مدال‌های افتخار', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _medal('وقت‌شناس', Colors.purple),
-                _medal('خوش‌رفتار', Colors.green),
-              ],
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
+                onPressed: () {},
+                child: const Text('ذخیره', style: TextStyle(color: Colors.black54)),
+              ),
             ),
           ],
         ),
@@ -197,26 +94,22 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _infoRow(String t1, String t2) {
+  Widget _inputField(String label, String hint) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(t2, style: const TextStyle(color: Colors.blue)),
-        Text(t1),
-      ]),
-    );
-  }
-
-  Widget _medal(String label, Color col) {
-    return Container(
-      width: 120,
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(color: col.withOpacity(0.1), borderRadius: BorderRadius.circular(15)),
-      child: Column(children: [
-        Icon(Icons.military_tech, color: col, size: 40),
-        const SizedBox(height: 10),
-        Text(label, style: TextStyle(color: col, fontWeight: FontWeight.bold)),
-      ]),
+      padding: const EdgeInsets.only(bottom: 15),
+      child: TextField(
+        decoration: InputDecoration(
+          labelText: label,
+          hintText: hint,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+      ),
     );
   }
 }
+
+// سایر صفحات ساده برای جلوگیری از خطا
+class SafirRequestScreen extends StatelessWidget { const SafirRequestScreen({super.key}); @override Widget build(BuildContext context) => Scaffold(appBar: AppBar(title: const Text('درخواست سفیر'))); }
+class BarbariScreen extends StatelessWidget { const BarbariScreen({super.key}); @override Widget build(BuildContext context) => Scaffold(appBar: AppBar(title: const Text('باربری'))); }
+class RegistrationScreen extends StatelessWidget { const RegistrationScreen({super.key}); @override Widget build(BuildContext context) => Scaffold(appBar: AppBar(title: const Text('ثبت نام'))); }
+class IntercityScreen extends StatelessWidget { const IntercityScreen({super.key}); @override Widget build(BuildContext context) => Scaffold(appBar: AppBar(title: const Text('بین شهری'))); }
