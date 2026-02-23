@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../utils/colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   void initState() {
     super.initState();
 
-    // تنظیم انیمیشن برای لوگو
+    // انیمیشن محو شدن (Fade)
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
@@ -25,9 +24,11 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     _opacity = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
     _controller.forward();
 
-    // هدایت خودکار بعد از ۳ ثانیه به صفحه لاگین
+    // هدایت به صفحه اصلی (Home) بعد از 3 ثانیه
     Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, '/login');
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/home'); // به جای /login به /home می‌رود
+      }
     });
   }
 
@@ -40,66 +41,42 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: SafirColors.primaryGreen, // رنگ سبز اختصاصی سفیر
+      backgroundColor: Colors.white, // تغییر به سفید برای مدرن شدن طبق درخواست قبلی
       body: Center(
         child: FadeTransition(
           opacity: _opacity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // لوگوی S که در کانوا طراحی کردی
-              Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 20,
-                      offset: const Offset(0, 10),
-                    ),
-                  ],
-                ),
-                child: const Center(
-                  child: Text(
-                    "S",
-                    style: TextStyle(
-                      fontSize: 70,
-                      fontWeight: FontWeight.bold,
-                      color: SafirColors.primaryGreen,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 25),
-              // نام برند با فونت ایران‌یکان
+              // لوگوی متنی Safir
               const Text(
-                "سفیر",
+                "Safir",
                 style: TextStyle(
-                  fontFamily: 'IranYekan',
-                  color: Colors.white,
-                  fontSize: 40,
+                  fontSize: 55,
                   fontWeight: FontWeight.bold,
+                  color: Color(0xFF145A41), // رنگ سبز اختصاصی سفیر
                   letterSpacing: 2,
                 ),
               ),
-              const SizedBox(height: 10),
-              const Text(
-                "SAFIR TAXI",
-                style: TextStyle(
-                  color: Colors.white60,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300,
-                  letterSpacing: 4,
+              const SizedBox(height: 5),
+              // خط متحرک و مدرن زیر کلمه Safir (طبق خواسته شما)
+              Container(
+                width: 65,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF145A41),
+                  borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              const SizedBox(height: 50),
-              // لودینگ بسیار ساده و شیک
-              const CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                strokeWidth: 2,
+              const SizedBox(height: 40),
+              // لودینگ ظریف
+              const SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF145A41)),
+                  strokeWidth: 2,
+                ),
               ),
             ],
           ),
