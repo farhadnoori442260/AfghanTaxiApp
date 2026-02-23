@@ -10,7 +10,6 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        // دکمه منو در سمت چپ طبق تصویر
         leading: Builder(
           builder: (context) => IconButton(
             icon: const Icon(Icons.menu, color: Color(0xFF145A41)),
@@ -31,7 +30,6 @@ class HomeScreen extends StatelessWidget {
                     fontSize: 20,
                   ),
                 ),
-                // آیکون خانه با خط زیرین در گوشه سمت راست (طبق عکس 1000049456.jpg)
                 Container(
                   margin: const EdgeInsets.only(top: 2),
                   decoration: const BoxDecoration(
@@ -47,11 +45,9 @@ class HomeScreen extends StatelessWidget {
       drawer: _buildDrawer(context),
       body: Stack(
         children: [
-          // فضای نقشه در پس‌زمینه
           const Center(
             child: Icon(Icons.location_on, size: 50, color: Colors.redAccent),
           ),
-          // بخش گزینه‌های پایین صفحه (طبق عکس 1000049456.jpg)
           _buildBottomOptions(),
         ],
       ),
@@ -77,9 +73,15 @@ class HomeScreen extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.person_outline, color: Color(0xFF145A41)),
             title: const Text('حساب کاربری'),
-            onTap: () => Navigator.pushNamed(context, '/account'),
+            // تغییر مسیر به /profile که در main.dart تعریف کردیم
+            onTap: () => Navigator.pushNamed(context, '/profile'),
           ),
-          // بخش تنظیمات زبان به صورت کشویی (ExpansionTile)
+          ListTile(
+            leading: const Icon(Icons.settings, color: Color(0xFF145A41)),
+            title: const Text('تنظیمات برنامه'),
+            // اضافه کردن مسیر تنظیمات
+            onTap: () => Navigator.pushNamed(context, '/settings'),
+          ),
           const ExpansionTile(
             leading: Icon(Icons.language, color: Color(0xFF145A41)),
             title: Text('تنظیمات زبان'),
