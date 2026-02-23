@@ -3,7 +3,6 @@ description: "Safir Taxi App Project"
 publish_to: 'none'
 version: 1.0.0+1
 
-# تنظیم نسخه SDK متناسب با محیط FlutLab شما برای رفع خطای قرمز
 environment:
   sdk: '>=3.0.0 <4.0.0'
 
@@ -20,17 +19,15 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # آدرس‌دهی پوشه‌های زبان و تصاویر طبق ساختار گیت‌هاب شما
   assets:
     - assets/lang/
     - assets/images/
 
-  # تنظیم دقیق فونت‌ها با رعایت فاصله (Space) در نام فایل‌ها
   fonts:
     - family: IranYekan
       fonts:
         - asset: assets/fonts/Qs_Iranyekan.ttf
-        - asset: assets/fonts/Qs_Iranyekan bold.ttf
+        - asset: assets/fonts/Qs_Iranyekan\ bold.ttf
           weight: 700
-        - asset: assets/fonts/Qs_Iranyekan light.ttf
+        - asset: assets/fonts/Qs_Iranyekan\ light.ttf
           weight: 300
