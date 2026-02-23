@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import '../utils/colors.dart'; // وارد کردن پالت رنگی سفیر
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -12,19 +11,23 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "حساب کاربری سفیر",
-          style: TextStyle(fontFamily: 'IranYekan', color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: Stack(
         children: [
-          // ۱. پس‌زمینه اختصاصی برند سفیر
+          // ۱. پس‌زمینه اختصاصی برند سفیر (سبز تیره مدرن)
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [SafirColors.primaryGreen, Color(0xFF082218)],
+                colors: [Color(0xFF145A41), Color(0xFF082218)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -36,13 +39,13 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 120),
-                _buildProfileHeader(),
+                _buildProfileHeader(context), // متصل به ویرایش
                 const SizedBox(height: 30),
                 _buildStatsSection(),
                 const SizedBox(height: 30),
-                _buildMedalsSection(), // بخش مدال‌های طلایی
+                _buildMedalsSection(), 
                 const SizedBox(height: 30),
-                _buildSettingsList(),
+                _buildSettingsList(context),
                 const SizedBox(height: 50),
               ],
             ),
@@ -52,8 +55,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  // بخش سربرگ (عکس و نام) با استایل جدید
-  Widget _buildProfileHeader() {
+  Widget _buildProfileHeader(BuildContext context) {
     return Column(
       children: [
         Stack(
@@ -75,24 +77,29 @@ class ProfileScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(6),
               decoration: const BoxDecoration(color: Colors.amber, shape: BoxShape.circle),
-              child: const Icon(Icons.verified, color: SafirColors.primaryGreen, size: 22),
+              child: const Icon(Icons.verified, color: Color(0xFF145A41), size: 22),
             ),
           ],
         ),
         const SizedBox(height: 15),
         const Text(
-          "احمد نوری",
-          style: TextStyle(fontFamily: 'IranYekan', color: Colors.white, fontSize: 26, fontWeight: FontWeight.bold),
+          "فرهاد نوری",
+          style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.bold),
         ),
         const Text(
           "سفیر فعال از ۲۰۲۳",
-          style: TextStyle(fontFamily: 'IranYekan', color: Colors.white70, fontSize: 14),
+          style: TextStyle(color: Colors.white70, fontSize: 14),
+        ),
+        // اضافه شدن دکمه ویرایش برای اتصال به صفحه ویرایش پروفایل
+        TextButton.icon(
+          onPressed: () => Navigator.pushNamed(context, '/edit_profile'),
+          icon: const Icon(Icons.edit, color: Colors.amber, size: 16),
+          label: const Text("ویرایش پروفایل و اطلاعات فرعی", style: TextStyle(color: Colors.amber)),
         ),
       ],
     );
   }
 
-  // بخش آمار با اعداد فارسی و طلایی
   Widget _buildStatsSection() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -109,19 +116,12 @@ class ProfileScreen extends StatelessWidget {
       children: [
         Icon(icon, color: Colors.amber, size: 28),
         const SizedBox(height: 5),
-        Text(
-          value,
-          style: const TextStyle(fontFamily: 'IranYekan', color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        Text(
-          label,
-          style: const TextStyle(fontFamily: 'IranYekan', color: Colors.white60, fontSize: 12),
-        ),
+        Text(value, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(label, style: const TextStyle(color: Colors.white60, fontSize: 12)),
       ],
     );
   }
 
-  // بخش مدال‌های افتخار (با افکت شیشه‌ای)
   Widget _buildMedalsSection() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -132,16 +132,14 @@ class ProfileScreen extends StatelessWidget {
         border: Border.all(color: Colors.white10),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           const Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Icon(Icons.military_tech, color: Colors.amber, size: 20),
+              Text("نشان‌های افتخار سفیر", style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold)),
               SizedBox(width: 8),
-              Text(
-                "نشان‌های افتخار سفیر",
-                style: TextStyle(fontFamily: 'IranYekan', color: Colors.amber, fontWeight: FontWeight.bold),
-              ),
+              Icon(Icons.military_tech, color: Colors.amber, size: 20),
             ],
           ),
           const SizedBox(height: 20),
@@ -172,16 +170,12 @@ class ProfileScreen extends StatelessWidget {
           child: Icon(icon, color: color, size: 28),
         ),
         const SizedBox(height: 8),
-        Text(
-          label,
-          style: const TextStyle(fontFamily: 'IranYekan', color: Colors.white70, fontSize: 10),
-        ),
+        Text(label, style: const TextStyle(color: Colors.white70, fontSize: 10)),
       ],
     );
   }
 
-  // لیست تنظیمات
-  Widget _buildSettingsList() {
+  Widget _buildSettingsList(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
@@ -193,8 +187,6 @@ class ProfileScreen extends StatelessWidget {
         children: [
           _settingsTile(Icons.account_balance_wallet_outlined, "کیف پول و درآمدها"),
           _settingsTile(Icons.history_rounded, "تاریخچه سفرهای سفیر"),
-          _settingsTile(Icons.notifications_none_rounded, "تنظیمات اعلان‌ها"),
-          _settingsTile(Icons.shield_outlined, "امنیت و حریم خصوصی"),
           _settingsTile(Icons.contact_support_outlined, "مرکز پشتیبانی"),
         ],
       ),
@@ -204,10 +196,7 @@ class ProfileScreen extends StatelessWidget {
   Widget _settingsTile(IconData icon, String title) {
     return ListTile(
       leading: Icon(icon, color: Colors.white70),
-      title: Text(
-        title,
-        style: const TextStyle(fontFamily: 'IranYekan', color: Colors.white, fontSize: 15),
-      ),
+      title: Text(title, style: const TextStyle(color: Colors.white, fontSize: 15)),
       trailing: const Icon(Icons.arrow_forward_ios, color: Colors.white24, size: 14),
       onTap: () {},
     );
