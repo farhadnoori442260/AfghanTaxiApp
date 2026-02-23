@@ -1,12 +1,15 @@
-name: safir
-description: "Safir Taxi App"
-publish_to: 'none'
-version: 1.0.0+1
-environment:
-  sdk: '>=3.0.0 <4.0.0'
-dependencies:
-  flutter:
-    sdk: flutter
-  cupertino_icons: ^1.0.6
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/lang/
+    - assets/images/
+
+  fonts:
+    - family: IranYekan
+      fonts:
+        - asset: assets/fonts/Qs_Iranyekan.ttf
+        - asset: assets/fonts/Qs_Iranyekan bold.ttf
+          weight: 700
+        - asset: assets/fonts/Qs_Iranyekan light.ttf
+          weight: 300
