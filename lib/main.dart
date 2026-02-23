@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'splash_screen.dart';
 import 'home_screen.dart';
+import 'map_screen.dart'; // وارد کردن فایل نقشه
+import 'profile_screen.dart';
 
 void main() {
   runApp(const SafirApp());
@@ -23,6 +25,8 @@ class SafirApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashScreen(),
         '/home': (context) => const HomeScreen(),
+        '/map': (context) => const MapScreen(), // مسیر جدید نقشه
+        '/profile': (context) => const ProfileScreen(),
       },
     );
   }
