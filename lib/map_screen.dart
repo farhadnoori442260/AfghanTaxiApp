@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-// نکته: برای اجرای واقعی نقشه، باید پکیج google_maps_flutter را در pubspec اضافه کنید
-// اما برای تست فعلی، من بخش‌هایی که ممکن است ارور بدهد را ساده کردم
+import 'utils/colors.dart';
+import 'utils/helper.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -12,14 +11,13 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   int _currentStep = 0; // 0: مبدأ، 1: مقصد، 2: انتخاب سرویس
-  final Color primaryGreen = const Color(0xFF145A41);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // ۱. شبیه‌ساز نقشه (چون تنظیمات API Key گوگل مپ زمان‌بر است)
+          // ۱. شبیه‌ساز نقشه
           Container(
             color: Colors.grey[200],
             child: const Center(
@@ -27,7 +25,7 @@ class _MapScreenState extends State<MapScreen> {
             ),
           ),
 
-          // ۲. پین هوشمند وسط نقشه
+          // ۲. پین هوشمند وسط نقشه (متصل به Helper)
           if (_currentStep < 2)
             Center(
               child: Padding(
@@ -38,18 +36,18 @@ class _MapScreenState extends State<MapScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: _currentStep == 0 ? primaryGreen : Colors.redAccent,
+                        color: _currentStep == 0 ? SafirColors.primaryGreen : Colors.redAccent,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
-                        _currentStep == 0 ? "تأیید مبدأ" : "تأیید مقصد",
+                        _currentStep == 0 ? tr(context, 'origin') : tr(context, 'destination'),
                         style: const TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ),
                     Icon(
                       Icons.location_on_rounded, 
                       size: 50, 
-                      color: _currentStep == 0 ? primaryGreen : Colors.redAccent,
+                      color: _currentStep == 0 ? SafirColors.primaryGreen : Colors.redAccent,
                     ),
                   ],
                 ),
@@ -64,7 +62,7 @@ class _MapScreenState extends State<MapScreen> {
               mini: true,
               backgroundColor: Colors.white,
               onPressed: () => Navigator.pop(context),
-              child: Icon(Icons.arrow_back, color: primaryGreen),
+              child: const Icon(Icons.arrow_back, color: SafirColors.primaryGreen),
             ),
           ),
 
@@ -91,25 +89,25 @@ class _MapScreenState extends State<MapScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (_currentStep == 0) ...[
-            Text("کجا هستید؟", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: primaryGreen)),
+            Text(tr(context, 'where_to'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: SafirColors.primaryGreen)),
             const SizedBox(height: 15),
-            _buildActionButton("تأیید مکان مبدأ", primaryGreen, () => setState(() => _currentStep = 1)),
+            _buildActionButton("${tr(context, 'confirm')} ${tr(context, 'origin')}", SafirColors.primaryGreen, () => setState(() => _currentStep = 1)),
           ] 
           else if (_currentStep == 1) ...[
-            const Text("مقصد سفر را مشخص کنید", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            Text(tr(context, 'destination'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             const SizedBox(height: 15),
-            _buildActionButton("تأیید مکان مقصد", primaryGreen, () => setState(() => _currentStep = 2)),
-            TextButton(onPressed: () => setState(() => _currentStep = 0), child: const Text("اصلاح مبدأ", style: TextStyle(color: Colors.grey)))
+            _buildActionButton("${tr(context, 'confirm')} ${tr(context, 'destination')}", SafirColors.primaryGreen, () => setState(() => _currentStep = 2)),
+            TextButton(onPressed: () => setState(() => _currentStep = 0), child: Text(tr(context, 'origin'), style: const TextStyle(color: Colors.grey)))
           ] 
           else if (_currentStep == 2) ...[
-            const Text("انتخاب نوع سرویس سفیر", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            Text(tr(context, 'vehicle_type'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             const SizedBox(height: 15),
             _buildVehicleSelection(),
             const SizedBox(height: 20),
-            _buildActionButton("درخواست سفیر", primaryGreen, () {
-              // منطق نهایی
+            _buildActionButton(tr(context, 'request_ride'), SafirColors.primaryGreen, () {
+              // نمایش لودینگ جستجوی راننده
             }),
-            TextButton(onPressed: () => setState(() => _currentStep = 1), child: const Text("تغییر مقصد", style: TextStyle(color: Colors.grey)))
+            TextButton(onPressed: () => setState(() => _currentStep = 1), child: Text(tr(context, 'cancel'), style: const TextStyle(color: Colors.grey)))
           ],
         ],
       ),
@@ -133,9 +131,9 @@ class _MapScreenState extends State<MapScreen> {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          _vehicleItem("سفیر اقتصادی", Icons.directions_car, "۱۲۰ AFN", primaryGreen),
-          _vehicleItem("سفیر باربر", Icons.local_shipping, "۳۵۰ AFN", Colors.blueGrey),
-          _vehicleItem("سفیر موتر", Icons.motorcycle, "۶۰ AFN", Colors.orange),
+          _vehicleItem(tr(context, 'safir_taxi'), Icons.directions_car, "120 ${tr(context, 'afn')}", SafirColors.primaryGreen),
+          _vehicleItem(tr(context, 'safir_cargo'), Icons.local_shipping, "350 ${tr(context, 'afn')}", Colors.blueGrey),
+          _vehicleItem(tr(context, 'safir_bike'), Icons.motorcycle, "60 ${tr(context, 'afn')}", Colors.orange),
         ],
       ),
     );
