@@ -1,143 +1,202 @@
 import 'package:flutter/material.dart';
+import 'utils/colors.dart';
+import 'utils/helper.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // بررسی جهت زبان برای چیدمان درست (راست به چپ)
+    bool isRtl = Localizations.localeOf(context).languageCode != 'en';
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      extendBodyBehindAppBar: true,
+      // اپ‌بار شفاف برای نمایش بهتر نقشه
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: Builder(
           builder: (context) => IconButton(
-            icon: const Icon(Icons.menu, color: Color(0xFF145A41)),
+            icon: const Icon(Icons.menu, color: SafirColors.textDark, size: 30),
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            child: Column(
               children: [
-                const Text(
-                  'Safir',
-                  style: TextStyle(
-                    color: Color(0xFF145A41),
+                Text(
+                  tr(context, 'app_name'),
+                  style: const TextStyle(
+                    color: SafirColors.primaryGreen,
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 18,
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 2),
-                  decoration: const BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Color(0xFF145A41), width: 2)),
-                  ),
-                  child: const Icon(Icons.home, size: 20, color: Color(0xFF145A41)),
-                ),
+                const Icon(Icons.home, color: SafirColors.primaryGreen, size: 18),
               ],
             ),
-          ],
-        ),
+          )
+        ],
       ),
-      drawer: _buildDrawer(context),
+      drawer: _buildModernDrawer(context),
       body: Stack(
         children: [
-          const Center(
-            child: Icon(Icons.location_on, size: 50, color: Colors.redAccent),
-          ),
-          _buildBottomOptions(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDrawer(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Color(0xFF145A41)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(backgroundColor: Colors.white, radius: 30, child: Icon(Icons.person, color: Color(0xFF145A41), size: 35)),
-                SizedBox(height: 10),
-                Text("farhadnoori", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-              ],
+          // بخش نقشه (پس‌زمینه اصلی)
+          Container(
+            color: const Color(0xFFE2E8F0),
+            child: const Center(
+              child: Icon(Icons.map, size: 100, color: Colors.black12),
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.person_outline, color: Color(0xFF145A41)),
-            title: const Text('حساب کاربری'),
-            // تغییر مسیر به /profile که در main.dart تعریف کردیم
-            onTap: () => Navigator.pushNamed(context, '/profile'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.settings, color: Color(0xFF145A41)),
-            title: const Text('تنظیمات برنامه'),
-            // اضافه کردن مسیر تنظیمات
-            onTap: () => Navigator.pushNamed(context, '/settings'),
-          ),
-          const ExpansionTile(
-            leading: Icon(Icons.language, color: Color(0xFF145A41)),
-            title: Text('تنظیمات زبان'),
-            children: [
-              ListTile(title: Text('دری'), contentPadding: EdgeInsets.only(right: 50)),
-              ListTile(title: Text('پشتو'), contentPadding: EdgeInsets.only(right: 50)),
-              ListTile(title: Text('English'), contentPadding: EdgeInsets.only(right: 50)),
-            ],
-          ),
-          ListTile(
-            leading: const Icon(Icons.history, color: Color(0xFF145A41)),
-            title: const Text('تاریخچه سفرها'),
-            onTap: () {},
+
+          // قاب معلق پایین صفحه (Floating Navigation Dashboard)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.all(20),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.15),
+                    blurRadius: 25,
+                    spreadRadius: 5,
+                    offset: const Offset(0, 10),
+                  )
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  // ۱. درخواست سفیر
+                  _buildNavOption(
+                    context,
+                    icon: Icons.directions_car_filled,
+                    labelKey: 'request_ride', // در helper: درخواست سفیر
+                    onTap: () => Navigator.pushNamed(context, '/map'),
+                  ),
+                  // ۲. ثبت‌نام راننده
+                  _buildNavOption(
+                    context,
+                    icon: Icons.person_add_alt_1,
+                    labelKey: 'reg_title', // در helper: ثبت‌نام راننده
+                    onTap: () {},
+                  ),
+                  // ۳. باربری
+                  _buildNavOption(
+                    context,
+                    icon: Icons.local_shipping,
+                    labelKey: 'safir_cargo', // در helper: باربری
+                    onTap: () {},
+                  ),
+                  // ۴. بین شهری
+                  _buildNavOption(
+                    context,
+                    icon: Icons.location_city,
+                    labelKey: 'safir_luxury', // در helper: بین شهری (یا لغتی که برای آن ست کردید)
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildBottomOptions() {
-    return Positioned(
-      bottom: 20,
-      left: 15,
-      right: 15,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(25),
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 15, offset: const Offset(0, 5))],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _optionItem(Icons.location_city, 'بین شهری'),
-            _optionItem(Icons.grid_view, 'ثبت نام'),
-            _optionItem(Icons.local_shipping, 'باربری'),
-            _optionItem(Icons.directions_car, 'درخواست سفیر'),
-          ],
-        ),
+  // ویجت اختصاصی برای آیتم‌های منوی پایین
+  Widget _buildNavOption(BuildContext context, {required IconData icon, required String labelKey, required VoidCallback onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: SafirColors.primaryGreen.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: SafirColors.primaryGreen, size: 28),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            tr(context, labelKey),
+            style: const TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              color: SafirColors.textDark,
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _optionItem(IconData icon, String label) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(color: Colors.green.withOpacity(0.1), shape: BoxShape.circle),
-          child: Icon(icon, color: const Color(0xFF145A41), size: 28),
-        ),
-        const SizedBox(height: 5),
-        Text(label, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
-      ],
+  // دراور مدرن با تنظیمات زبان و شب
+  Widget _buildModernDrawer(BuildContext context) {
+    return Drawer(
+      child: Column(
+        children: [
+          // هدر دراور (بخش پروفایل)
+          UserAccountsDrawerHeader(
+            decoration: const BoxDecoration(color: SafirColors.primaryGreen),
+            currentAccountPicture: const CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Icon(Icons.person, color: SafirColors.primaryGreen, size: 40),
+            ),
+            accountName: const Text("Farhad Noori", style: TextStyle(fontWeight: FontWeight.bold)),
+            accountEmail: const Text("09907027123"),
+            onDetailsPressed: () => Navigator.pushNamed(context, '/profile'),
+          ),
+          
+          // بخش تنظیمات داینامیک
+          ExpansionTile(
+            leading: const Icon(Icons.settings, color: SafirColors.primaryGreen),
+            title: Text(tr(context, 'settings')),
+            children: [
+              // انتخاب زبان
+              ListTile(
+                leading: const Icon(Icons.language, size: 20),
+                title: const Text("انتخاب زبان (Language)"),
+                onTap: () => _showLanguagePicker(context),
+              ),
+              // حالت شب
+              ListTile(
+                leading: const Icon(Icons.dark_mode, size: 20),
+                title: Text(tr(context, 'is_sos_active')), // یا هر کلیدی برای تم
+                trailing: Switch(
+                  value: Theme.of(context).brightness == Brightness.dark,
+                  onChanged: (val) {
+                    // فراخوانی متد تغییر تم از main.dart
+                    import 'main.dart'; // اگر ارور داد باید به شکلی که در پیام قبلی گفتم صدا بزنید
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showLanguagePicker(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(title: const Text("دری"), onTap: () { /* کد تغییر به fa */ Navigator.pop(context); }),
+          ListTile(title: const Text("پشتو"), onTap: () { /* کد تغییر به ps */ Navigator.pop(context); }),
+          ListTile(title: const Text("English"), onTap: () { /* کد تغییر به en */ Navigator.pop(context); }),
+        ],
+      ),
     );
   }
 }
