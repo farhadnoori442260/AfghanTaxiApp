@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'utils/colors.dart';
+import 'utils/helper.dart';
+import 'widgets/medal_card.dart'; // وارد کردن ویجت مدال
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -6,197 +9,93 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      backgroundColor: SafirColors.bgLight,
       appBar: AppBar(
-        title: const Text(
-          "حساب کاربری سفیر",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        title: Text(tr(context, 'profile'), style: const TextStyle(color: SafirColors.textDark)),
         centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: SafirColors.textDark),
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Stack(
-        children: [
-          // ۱. پس‌زمینه اختصاصی برند سفیر
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFF145A41), Color(0xFF082218)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 30),
+            // بخش تصویر و امتیاز
+            const Center(
+              child: CircleAvatar(
+                radius: 55,
+                backgroundColor: Colors.white,
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Color(0xFFE2E8F0),
+                  child: Icon(Icons.person, size: 60, color: Colors.grey),
+                ),
               ),
             ),
-          ),
-          
-          // ۲. محتوا
-          SingleChildScrollView(
-            child: Column(
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 120),
-                _buildProfileHeader(context),
-                const SizedBox(height: 30),
-                _buildStatsSection(),
-                const SizedBox(height: 30),
-                _buildMedalsSection(), 
-                const SizedBox(height: 30),
-                _buildSettingsList(context),
-                const SizedBox(height: 50),
+                const Icon(Icons.star, color: SafirColors.accentGold, size: 20),
+                const SizedBox(width: 5),
+                Text(
+                  "4.8 ${tr(context, 'rating')}",
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildProfileHeader(BuildContext context) {
-    return Column(
-      children: [
-        Stack(
-          alignment: Alignment.bottomRight,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white24),
-              ),
-              child: const CircleAvatar(
-                radius: 60,
-                backgroundColor: Colors.white12,
-                child: Icon(Icons.person, size: 80, color: Colors.white),
+            
+            const SizedBox(height: 40),
+            
+            // بخش مدال‌ها (مطابق عکس ۳)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  tr(context, 'medals_and_honors'),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(6),
-              decoration: const BoxDecoration(color: Colors.amber, shape: BoxShape.circle),
-              child: const Icon(Icons.verified, color: Color(0xFF145A41), size: 22),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                MedalCard(
+                  title: tr(context, 'popular'),
+                  icon: Icons.favorite,
+                  color: const Color(0xFFEC4899), // صورتی مدرن
+                ),
+                MedalCard(
+                  title: tr(context, 'top_driver_year'),
+                  icon: Icons.emoji_events,
+                  color: SafirColors.accentGold,
+                ),
+              ],
+            ),
+            
+            const SizedBox(height: 40),
+            
+            // دکمه ویرایش (هدایت به صفحه ۴)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: ListTile(
+                onTap: () => Navigator.pushNamed(context, '/edit_profile'),
+                tileColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                leading: const Icon(Icons.edit, color: SafirColors.primaryGreen),
+                title: Text(tr(context, 'full_name')), // یا کلید ویرایش
+                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              ),
             ),
           ],
         ),
-        const SizedBox(height: 15),
-        const Text(
-          "فرهاد نوری",
-          style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.bold),
-        ),
-        const Text(
-          "سفیر فعال از ۲۰۲۳",
-          style: TextStyle(color: Colors.white70, fontSize: 14),
-        ),
-        TextButton.icon(
-          onPressed: () => Navigator.pushNamed(context, '/edit_profile'),
-          icon: const Icon(Icons.edit, color: Colors.amber, size: 16),
-          label: const Text("ویرایش پروفایل و اطلاعات فرعی", style: TextStyle(color: Colors.amber)),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildStatsSection() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        _statItem("۴.۹", "امتیاز", Icons.star_rounded),
-        _statItem("۱,۲۵۰", "کل سفرها", Icons.local_taxi_rounded),
-        _statItem("۳ سال", "سابقه", Icons.calendar_today_rounded),
-      ],
-    );
-  }
-
-  Widget _statItem(String value, String label, IconData icon) {
-    return Column(
-      children: [
-        Icon(icon, color: Colors.amber, size: 28),
-        const SizedBox(height: 5),
-        Text(value, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-        Text(label, style: const TextStyle(color: Colors.white60, fontSize: 12)),
-      ],
-    );
-  }
-
-  Widget _buildMedalsSection() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(25),
-        border: Border.all(color: Colors.white10),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text("نشان‌های افتخار سفیر", style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold)),
-              SizedBox(width: 8),
-              Icon(Icons.military_tech, color: Colors.amber, size: 20),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _medalIcon(Icons.looks_3, "۳ ساله", Colors.amber),
-              _medalIcon(Icons.verified_user, "امنیت", Colors.cyanAccent),
-              _medalIcon(Icons.sentiment_very_satisfied, "اخلاق", Colors.greenAccent),
-              _medalIcon(Icons.workspace_premium, "VIP", Colors.purpleAccent),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _medalIcon(IconData icon, String label, Color color) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: color.withOpacity(0.1),
-            border: Border.all(color: color.withOpacity(0.3), width: 1.5),
-          ),
-          child: Icon(icon, color: color, size: 28),
-        ),
-        const SizedBox(height: 8),
-        Text(label, style: const TextStyle(color: Colors.white70, fontSize: 10)),
-      ],
-    );
-  }
-
-  Widget _buildSettingsList(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(25),
-        border: Border.all(color: Colors.white10),
-      ),
-      child: Column(
-        children: [
-          _settingsTile(Icons.account_balance_wallet_outlined, "کیف پول و درآمدها"),
-          _settingsTile(Icons.history_rounded, "تاریخچه سفرهای سفیر"),
-          _settingsTile(Icons.contact_support_outlined, "مرکز پشتیبانی"),
-        ],
-      ),
-    );
-  }
-
-  Widget _settingsTile(IconData icon, String title) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.white70),
-      title: Text(title, style: const TextStyle(color: Colors.white, fontSize: 15)),
-      trailing: const Icon(Icons.arrow_forward_ios, color: Colors.white24, size: 14),
-      onTap: () {},
     );
   }
 }
