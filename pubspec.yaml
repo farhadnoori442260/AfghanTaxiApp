@@ -1,5 +1,5 @@
 name: afghan_taxi_app
-description: "Safir Taxi App"
+description: "Safir Taxi App - Professional Ride Sharing"
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -10,7 +10,11 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.6
-  google_maps_flutter: ^2.5.3 # اضافه شدن پکیج نقشه
+  # اضافه شده برای نقشه
+  google_maps_flutter: ^2.5.3 
+  # بسیار مهم برای کارکرد صحیح فایل helper و تغییر زبان
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -19,9 +23,13 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  # تعریف پوشه‌های تصاویر و زبان‌ها
   assets:
     - assets/lang/
     - assets/images/
+
+  # تعریف فونت‌ها (دقیقاً مطابق فایل‌هایی که در گیت‌هاب داری)
   fonts:
     - family: IranYekan
       fonts:
